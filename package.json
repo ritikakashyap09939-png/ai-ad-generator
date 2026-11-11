@@ -1,0 +1,6 @@
+{
+  "name": "ai-ad-generator",
+  "version": "1.0.0",
+  "private": true,
+  "description": "AI Ad Generator using Gemini API and Vercel serverless functions"
+}

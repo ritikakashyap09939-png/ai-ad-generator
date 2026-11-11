@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Ad Generator</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="container">
+    <header class="hero">
+      <h1>AI Ad Generator</h1>
+      <p>Generate Google Ads copy and a poster idea from your product details.</p>
+    </header>
+
+    <section class="card">
+      <form id="ad-form">
+        <div class="field">
+          <label for="productName">Product Name</label>
+          <input id="productName" name="productName" type="text" required placeholder="e.g. EcoSip Water Bottle">
+        </div>
+        <div class="field">
+          <label for="audience">Audience</label>
+          <input id="audience" name="audience" type="text" required placeholder="e.g. Fitness enthusiasts, 18-35">
+        </div>
+        <div class="field">
+          <label for="tone">Tone</label>
+          <input id="tone" name="tone" type="text" required placeholder="e.g. Friendly, energetic, premium">
+        </div>
+        <button id="generate-btn" type="submit">Generate</button>
+      </form>
+      <p id="status" class="status" aria-live="polite"></p>
+    </section>
+
+    <section id="results" class="results hidden">
+      <div class="result-block">
+        <h2>Headlines <span class="meta">(15, max 30 chars)</span></h2>
+        <ul id="headlines" class="list"></ul>
+      </div>
+      <div class="result-block">
+        <h2>Descriptions <span class="meta">(4, max 90 chars)</span></h2>
+        <ul id="descriptions" class="list"></ul>
+      </div>
+      <div class="result-block">
+        <h2>Keywords <span class="meta">(10)</span></h2>
+        <ul id="keywords" class="list"></ul>
+      </div>
+      <div class="result-block">
+        <h2>Poster Idea</h2>
+        <div id="poster" class="poster"></div>
+      </div>
+    </section>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>
