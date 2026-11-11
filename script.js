@@ -2,6 +2,7 @@ const form = document.getElementById('ad-form');
 const generateBtn = document.getElementById('generate-btn');
 const statusEl = document.getElementById('status');
 const resultsEl = document.getElementById('results');
+const emptyStateEl = document.getElementById('empty-state');
 
 const productInput = document.getElementById('productName');
 const audienceInput = document.getElementById('audience');
@@ -58,7 +59,6 @@ form.addEventListener('submit', async (e) => {
   setStatus('', '');
   generateBtn.disabled = true;
   generateBtn.textContent = 'Writing your ad...';
-  resultsEl.classList.add('hidden');
 
   try {
     const res = await fetch('/api/generate', {
@@ -73,6 +73,7 @@ form.addEventListener('submit', async (e) => {
     }
 
     renderResults(data);
+    if (emptyStateEl) emptyStateEl.classList.add('hidden');
     resultsEl.classList.remove('hidden');
     generateBtn.textContent = 'Create again';
   } catch (err) {

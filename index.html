@@ -13,85 +13,95 @@
       <p class="subtext">Answer 3 quick questions. We write the ad for you.</p>
     </header>
 
-    <section class="card">
-      <form id="ad-form" novalidate>
-        <div class="question">
-          <div class="q-header">
-            <span class="q-num">1</span>
-            <label for="productName">What are you selling?</label>
+    <div class="layout">
+      <aside class="left-col">
+        <section class="card form-card">
+          <form id="ad-form" novalidate>
+            <div class="question">
+              <div class="q-header">
+                <span class="q-num">1</span>
+                <label for="productName">What are you selling?</label>
+              </div>
+              <p class="helper">Write your product name</p>
+              <input id="productName" name="productName" type="text" placeholder="e.g. EcoSip Water Bottle">
+              <p id="err-product" class="field-error" aria-live="polite"></p>
+            </div>
+
+            <div class="question">
+              <div class="q-header">
+                <span class="q-num">2</span>
+                <label for="audience">Who will buy it?</label>
+              </div>
+              <p class="helper">Age, gender or interest</p>
+              <input id="audience" name="audience" type="text" placeholder="e.g. Women 25-40, fitness lovers">
+              <p id="err-audience" class="field-error" aria-live="polite"></p>
+            </div>
+
+            <div class="question">
+              <div class="q-header">
+                <span class="q-num">3</span>
+                <span class="q-label">How should it sound?</span>
+              </div>
+              <p class="helper">Pick one tone</p>
+              <div id="tone-chips" class="chips" role="radiogroup" aria-label="Tone">
+                <button type="button" class="chip selected" data-tone="Friendly" role="radio" aria-checked="true">Friendly</button>
+                <button type="button" class="chip" data-tone="Professional" role="radio" aria-checked="false">Professional</button>
+                <button type="button" class="chip" data-tone="Fun" role="radio" aria-checked="false">Fun</button>
+                <button type="button" class="chip" data-tone="Luxury" role="radio" aria-checked="false">Luxury</button>
+              </div>
+              <input type="hidden" id="tone" name="tone" value="Friendly">
+            </div>
+
+            <button id="generate-btn" type="submit" class="primary-btn">Create my ad</button>
+          </form>
+          <p id="status" class="status" aria-live="polite"></p>
+        </section>
+      </aside>
+
+      <section class="right-col">
+        <div id="empty-state" class="card empty-state">Your ad will appear here</div>
+
+        <section id="results" class="results hidden">
+          <div class="result-block">
+            <h2>Your ad on Google</h2>
+            <div class="preview-card">
+              <div class="preview-url">Ad · www.yourwebsite.com</div>
+              <div id="preview-headline" class="preview-headline"></div>
+              <div id="preview-desc" class="preview-desc"></div>
+            </div>
           </div>
-          <p class="helper">Write your product name</p>
-          <input id="productName" name="productName" type="text" placeholder="e.g. EcoSip Water Bottle">
-          <p id="err-product" class="field-error" aria-live="polite"></p>
-        </div>
 
-        <div class="question">
-          <div class="q-header">
-            <span class="q-num">2</span>
-            <label for="audience">Who will buy it?</label>
+          <div class="results-grid">
+            <div class="result-block">
+              <h2>Ad titles</h2>
+              <p class="helper">Short lines for the top of your ad. Tap Copy to use one.</p>
+              <ul id="headlines" class="list"></ul>
+              <button id="toggle-headlines" type="button" class="link-btn hidden">Show all 15 titles</button>
+            </div>
+            <div class="result-block">
+              <h2>Ad descriptions</h2>
+              <ul id="descriptions" class="list"></ul>
+            </div>
           </div>
-          <p class="helper">Age, gender or interest</p>
-          <input id="audience" name="audience" type="text" placeholder="e.g. Women 25-40, fitness lovers">
-          <p id="err-audience" class="field-error" aria-live="polite"></p>
-        </div>
 
-        <div class="question">
-          <div class="q-header">
-            <span class="q-num">3</span>
-            <span class="q-label">How should it sound?</span>
+          <div class="results-grid">
+            <div class="result-block">
+              <h2>Search words</h2>
+              <p class="helper">People type these on Google. Add them to your campaign.</p>
+              <div id="keywords" class="keyword-chips"></div>
+              <button id="copy-all-keywords" type="button" class="secondary-btn">Copy all words</button>
+            </div>
+            <div class="result-block">
+              <h2>Poster idea</h2>
+              <div class="poster-card">
+                <div id="poster-text" class="poster-text"></div>
+                <button id="copy-poster" type="button" class="copy-btn">Copy</button>
+              </div>
+            </div>
           </div>
-          <p class="helper">Pick one tone</p>
-          <div id="tone-chips" class="chips" role="radiogroup" aria-label="Tone">
-            <button type="button" class="chip selected" data-tone="Friendly" role="radio" aria-checked="true">Friendly</button>
-            <button type="button" class="chip" data-tone="Professional" role="radio" aria-checked="false">Professional</button>
-            <button type="button" class="chip" data-tone="Fun" role="radio" aria-checked="false">Fun</button>
-            <button type="button" class="chip" data-tone="Luxury" role="radio" aria-checked="false">Luxury</button>
-          </div>
-          <input type="hidden" id="tone" name="tone" value="Friendly">
-        </div>
-
-        <button id="generate-btn" type="submit" class="primary-btn">Create my ad</button>
-      </form>
-      <p id="status" class="status" aria-live="polite"></p>
-    </section>
-
-    <section id="results" class="results hidden">
-      <div class="result-block">
-        <h2>Your ad on Google</h2>
-        <div class="preview-card">
-          <div class="preview-url">Ad · www.yourwebsite.com</div>
-          <div id="preview-headline" class="preview-headline"></div>
-          <div id="preview-desc" class="preview-desc"></div>
-        </div>
-      </div>
-
-      <div class="result-block">
-        <h2>Ad titles</h2>
-        <p class="helper">Short lines for the top of your ad. Tap Copy to use one.</p>
-        <ul id="headlines" class="list"></ul>
-        <button id="toggle-headlines" type="button" class="link-btn hidden">Show all 15 titles</button>
-      </div>
-
-      <div class="result-block">
-        <h2>Ad descriptions</h2>
-        <ul id="descriptions" class="list"></ul>
-      </div>
-
-      <div class="result-block">
-        <h2>Search words</h2>
-        <p class="helper">People type these on Google. Add them to your campaign.</p>
-        <div id="keywords" class="keyword-chips"></div>
-        <button id="copy-all-keywords" type="button" class="secondary-btn">Copy all words</button>
-      </div>
-
-      <div class="result-block">
-        <h2>Poster idea</h2>
-        <div class="poster-card">
-          <div id="poster-text" class="poster-text"></div>
-          <button id="copy-poster" type="button" class="copy-btn">Copy</button>
-        </div>
-      </div>
-    </section>
+        </section>
+      </section>
+    </div>
   </main>
   <script src="script.js"></script>
 </body>
