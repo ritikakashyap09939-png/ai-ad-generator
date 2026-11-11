@@ -11,7 +11,8 @@ Rules:
 - Descriptions: exactly 4, each max 90 characters.
 - Keywords: exactly 10.
 - Do not include numbering, labels, or quotes inside the strings beyond normal text.
-- Keep copy relevant to the provided product, audience, and tone.`;
+- Keep copy relevant to the provided product, audience, and tone.
+- Never write medical or guaranteed-result claims. Do not use phrases like 'dermatologist approved', 'clinically proven', 'guaranteed results', 'cures', or 'fade dark spots fast'. Keep claims soft and honest, like 'helps you glow' or 'made for daily care'. Keep every headline under 30 characters and every description under 90 characters.`;
 
 function extractJSON(text) {
   const trimmed = text.trim();
