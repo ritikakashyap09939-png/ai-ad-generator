@@ -1,12 +1,28 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="purple">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AI Ad Generator</title>
   <link rel="stylesheet" href="styles.css">
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('adgen-theme');
+        if (t) document.documentElement.dataset.theme = t;
+      } catch (e) {}
+    })();
+  </script>
 </head>
 <body>
+  <div class="theme-switcher" aria-label="Theme switcher">
+    <span class="theme-label">Theme</span>
+    <button type="button" class="theme-dot" data-theme="purple" title="Midnight purple" aria-label="Midnight purple" style="--dot-color:#8b5cf6"></button>
+    <button type="button" class="theme-dot" data-theme="peach" title="Sunset peach" aria-label="Sunset peach" style="--dot-color:#d9653a"></button>
+    <button type="button" class="theme-dot" data-theme="mint" title="Fresh mint" aria-label="Fresh mint" style="--dot-color:#0d9488"></button>
+    <button type="button" class="theme-dot" data-theme="indigo" title="Indigo white" aria-label="Indigo white" style="--dot-color:#4f46e5"></button>
+  </div>
+
   <main class="container">
     <header class="hero">
       <h1>Make your ad in 30 seconds</h1>
@@ -30,16 +46,40 @@
             <div class="question">
               <div class="q-header">
                 <span class="q-num">2</span>
-                <label for="audience">Who will buy it?</label>
+                <span class="q-label">Who will buy it?</span>
               </div>
-              <p class="helper">Age, gender or interest</p>
-              <input id="audience" name="audience" type="text" placeholder="e.g. Women 25-40, fitness lovers">
-              <p id="err-audience" class="field-error" aria-live="polite"></p>
+              <p class="helper">Pick who you want to reach</p>
+              <div id="gender-chips" class="chips" role="radiogroup" aria-label="Audience">
+                <button type="button" class="chip" data-gender="Women" role="radio" aria-checked="false">Women</button>
+                <button type="button" class="chip" data-gender="Men" role="radio" aria-checked="false">Men</button>
+                <button type="button" class="chip selected" data-gender="Everyone" role="radio" aria-checked="true">Everyone</button>
+              </div>
+              <input type="hidden" id="gender" name="gender" value="Everyone">
             </div>
 
             <div class="question">
               <div class="q-header">
                 <span class="q-num">3</span>
+                <span class="q-label">What age group?</span>
+              </div>
+              <p class="helper">Choose the age range of your buyers</p>
+              <div class="age-row">
+                <div class="age-field">
+                  <label for="age-from" class="age-label">From</label>
+                  <input id="age-from" name="ageFrom" type="number" min="13" max="65" value="18">
+                </div>
+                <span class="age-sep">to</span>
+                <div class="age-field">
+                  <label for="age-to" class="age-label">To</label>
+                  <input id="age-to" name="ageTo" type="number" min="13" max="65" value="45">
+                </div>
+              </div>
+              <p id="err-age" class="field-error" aria-live="polite"></p>
+            </div>
+
+            <div class="question">
+              <div class="q-header">
+                <span class="q-num">4</span>
                 <span class="q-label">How should it sound?</span>
               </div>
               <p class="helper">Pick one tone</p>

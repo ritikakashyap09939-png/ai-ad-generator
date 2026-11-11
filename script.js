@@ -1,3 +1,24 @@
+(function initThemeSwitcher() {
+  var dots = document.querySelectorAll('.theme-dot');
+  function setActive(theme) {
+    dots.forEach(function (d) {
+      if (d.dataset.theme === theme) d.classList.add('active');
+      else d.classList.remove('active');
+    });
+  }
+  var current = document.documentElement.dataset.theme || 'purple';
+  setActive(current);
+  dots.forEach(function (dot) {
+    dot.addEventListener('click', function () {
+      var theme = dot.dataset.theme;
+      document.documentElement.dataset.theme = theme;
+      try { localStorage.setItem('adgen-theme', theme); } catch (e) {}
+      setActive(theme);
+    });
+  });
+})();
+initThemeSwitcher();
+
 const form = document.getElementById('ad-form');
 const generateBtn = document.getElementById('generate-btn');
 const statusEl = document.getElementById('status');
@@ -5,10 +26,13 @@ const resultsEl = document.getElementById('results');
 const emptyStateEl = document.getElementById('empty-state');
 
 const productInput = document.getElementById('productName');
-const audienceInput = document.getElementById('audience');
+const genderInput = document.getElementById('gender');
+const ageFromInput = document.getElementById('age-from');
+const ageToInput = document.getElementById('age-to');
 const toneInput = document.getElementById('tone');
+
 const errProduct = document.getElementById('err-product');
-const errAudience = document.getElementById('err-audience');
+const errAge = document.getElementById('err-age');
 
 const previewHeadline = document.getElementById('preview-headline');
 const previewDesc = document.getElementById('preview-desc');
@@ -23,24 +47,33 @@ const copyPosterBtn = document.getElementById('copy-poster');
 let allHeadlines = [];
 let headlinesExpanded = false;
 
-document.querySelectorAll('#tone-chips .chip').forEach((chip) => {
-  chip.addEventListener('click', () => {
-    document.querySelectorAll('#tone-chips .chip').forEach((c) => {
-      c.classList.remove('selected');
-      c.setAttribute('aria-checked', 'false');
+function setupChipGroup(containerId, hiddenInput, dataAttr) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+  container.querySelectorAll('.chip').forEach((chip) => {
+    chip.addEventListener('click', () => {
+      container.querySelectorAll('.chip').forEach((c) => {
+        c.classList.remove('selected');
+        c.setAttribute('aria-checked', 'false');
+      });
+      chip.classList.add('selected');
+      chip.setAttribute('aria-checked', 'true');
+      hiddenInput.value = chip.dataset[dataAttr] || hiddenInput.value;
     });
-    chip.classList.add('selected');
-    chip.setAttribute('aria-checked', 'true');
-    toneInput.value = chip.dataset.tone || 'Friendly';
   });
-});
+}
+
+setupChipGroup('gender-chips', genderInput, 'gender');
+setupChipGroup('tone-chips', toneInput, 'tone');
 
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
   clearErrors();
 
   const productName = productInput.value.trim();
-  const audience = audienceInput.value.trim();
+  const gender = genderInput.value || 'Everyone';
+  const ageFromStr = ageFromInput.value;
+  const ageToStr = ageToInput.value;
   const tone = toneInput.value.trim() || 'Friendly';
 
   let hasError = false;
@@ -49,12 +82,29 @@ form.addEventListener('submit', async (e) => {
     productInput.classList.add('input-error');
     hasError = true;
   }
-  if (!audience) {
-    errAudience.textContent = 'Tell us who will buy it.';
-    audienceInput.classList.add('input-error');
+  if (ageFromStr === '' || ageToStr === '') {
+    errAge.textContent = 'Please enter both ages.';
+    if (ageFromStr === '') ageFromInput.classList.add('input-error');
+    if (ageToStr === '') ageToInput.classList.add('input-error');
     hasError = true;
+  } else {
+    const ageFrom = Number(ageFromStr);
+    const ageTo = Number(ageToStr);
+    if (ageFrom > ageTo) {
+      errAge.textContent = 'Starting age must be smaller than ending age.';
+      ageFromInput.classList.add('input-error');
+      ageToInput.classList.add('input-error');
+      hasError = true;
+    }
   }
   if (hasError) return;
+
+  const ageFrom = Number(ageFromStr);
+  const ageTo = Number(ageToStr);
+  let prefix = 'People';
+  if (gender === 'Women') prefix = 'Women';
+  else if (gender === 'Men') prefix = 'Men';
+  const audience = `${prefix} aged ${ageFrom}-${ageTo}`;
 
   setStatus('', '');
   generateBtn.disabled = true;
@@ -86,9 +136,10 @@ form.addEventListener('submit', async (e) => {
 
 function clearErrors() {
   errProduct.textContent = '';
-  errAudience.textContent = '';
+  errAge.textContent = '';
   productInput.classList.remove('input-error');
-  audienceInput.classList.remove('input-error');
+  ageFromInput.classList.remove('input-error');
+  ageToInput.classList.remove('input-error');
   setStatus('', '');
 }
 
