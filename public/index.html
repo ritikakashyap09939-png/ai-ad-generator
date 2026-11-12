@@ -28,12 +28,17 @@
   </script>
 </head>
 <body>
-  <div class="theme-switcher" aria-label="Theme switcher">
-    <span class="theme-label">Theme</span>
-    <button type="button" class="theme-dot" data-theme="white" title="White" aria-label="White" style="--dot-color:#ffffff"></button>
-    <button type="button" class="theme-dot" data-theme="peach" title="Sunset peach" aria-label="Sunset peach" style="--dot-color:#d9653a"></button>
-    <button type="button" class="theme-dot" data-theme="mint" title="Fresh mint" aria-label="Fresh mint" style="--dot-color:#0d9488"></button>
-    <button type="button" class="theme-dot" data-theme="indigo" title="Indigo white" aria-label="Indigo white" style="--dot-color:#4f46e5"></button>
+  <div class="theme-switcher" id="theme-switcher">
+    <button type="button" id="theme-toggle" class="theme-toggle" aria-expanded="false" aria-controls="theme-options" aria-label="Theme">
+      <span class="theme-current-dot" id="theme-current-dot" aria-hidden="true"></span>
+      <span class="theme-toggle-text">Theme</span>
+    </button>
+    <div id="theme-options" class="theme-options" role="group" aria-label="Choose theme">
+      <button type="button" class="theme-dot" data-theme="white" title="White" aria-label="White" style="--dot-color:#ffffff"></button>
+      <button type="button" class="theme-dot" data-theme="peach" title="Sunset peach" aria-label="Sunset peach" style="--dot-color:#d9653a"></button>
+      <button type="button" class="theme-dot" data-theme="mint" title="Fresh mint" aria-label="Fresh mint" style="--dot-color:#0d9488"></button>
+      <button type="button" class="theme-dot" data-theme="indigo" title="Indigo white" aria-label="Indigo white" style="--dot-color:#4f46e5"></button>
+    </div>
   </div>
 
   <main class="container">

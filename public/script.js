@@ -4,22 +4,62 @@ const GITHUB_URL = "https://github.com/ritikakashyap09939-png";
 const PORTFOLIO_URL = "https://ritika-rajput-portfolio.vercel.app/";
 
 (function initThemeSwitcher() {
-  var dots = document.querySelectorAll('.theme-dot');
+  var switcher = document.getElementById('theme-switcher');
+  var toggle = document.getElementById('theme-toggle');
+  var options = document.getElementById('theme-options');
+  var currentDot = document.getElementById('theme-current-dot');
+  var dots = options ? options.querySelectorAll('.theme-dot') : [];
+  if (!switcher || !toggle || !options) return;
+
+  function open() {
+    switcher.classList.add('open');
+    toggle.setAttribute('aria-expanded', 'true');
+  }
+  function close(focusToggle) {
+    switcher.classList.remove('open');
+    toggle.setAttribute('aria-expanded', 'false');
+    if (focusToggle) toggle.focus();
+  }
   function setActive(theme) {
     dots.forEach(function (d) {
-      if (d.dataset.theme === theme) d.classList.add('active');
+      var active = d.dataset.theme === theme;
+      if (active) d.classList.add('active');
       else d.classList.remove('active');
+      if (active && currentDot) {
+        currentDot.style.setProperty('--current-theme-color', d.style.getPropertyValue('--dot-color'));
+      }
     });
   }
+
   var current = document.documentElement.dataset.theme || 'white';
   setActive(current);
+
+  toggle.addEventListener('click', function () {
+    if (switcher.classList.contains('open')) close(false);
+    else open();
+  });
+
   dots.forEach(function (dot) {
     dot.addEventListener('click', function () {
       var theme = dot.dataset.theme;
       document.documentElement.dataset.theme = theme;
       try { localStorage.setItem('adgen-theme', theme); } catch (e) {}
       setActive(theme);
+      close(false);
     });
+  });
+
+  document.addEventListener('click', function (e) {
+    if (switcher.classList.contains('open') && !switcher.contains(e.target)) {
+      close(false);
+    }
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && switcher.classList.contains('open')) {
+      e.preventDefault();
+      close(true);
+    }
   });
 })();
 
