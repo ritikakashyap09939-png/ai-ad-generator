@@ -62,8 +62,8 @@
               <div class="q-header">
                 <span class="q-num">1</span>
                 <label for="productName">What are you selling?</label>
+                <span class="helper inline-helper">Write your product name</span>
               </div>
-              <p class="helper">Write your product name</p>
               <input id="productName" name="productName" type="text" placeholder="e.g. EcoSip Water Bottle">
               <p id="err-product" class="field-error" aria-live="polite"></p>
             </div>
@@ -73,8 +73,8 @@
                 <div class="q-header">
                   <span class="q-num">2</span>
                   <span class="q-label">Who will buy it?</span>
+                  <span class="helper inline-helper">Pick who you want to reach</span>
                 </div>
-                <p class="helper">Pick who you want to reach</p>
                 <div id="gender-chips" class="chips" role="radiogroup" aria-label="Audience">
                   <button type="button" class="chip" data-gender="Women" role="radio" aria-checked="false">Women</button>
                   <button type="button" class="chip" data-gender="Men" role="radio" aria-checked="false">Men</button>
@@ -87,8 +87,8 @@
                 <div class="q-header">
                   <span class="q-num">3</span>
                   <span class="q-label">What age group?</span>
+                  <span class="helper inline-helper">Choose the age range of your buyers</span>
                 </div>
-                <p class="helper">Choose the age range of your buyers</p>
                 <div class="age-row">
                   <div class="age-field">
                     <label for="age-from" class="age-label">From</label>
@@ -108,8 +108,8 @@
               <div class="q-header">
                 <span class="q-num">4</span>
                 <span class="q-label">How should it sound?</span>
+                <span class="helper inline-helper">Pick one tone</span>
               </div>
-              <p class="helper">Pick one tone</p>
               <div id="tone-chips" class="chips" role="radiogroup" aria-label="Tone">
                 <button type="button" class="chip selected" data-tone="Friendly" role="radio" aria-checked="true">Friendly</button>
                 <button type="button" class="chip" data-tone="Professional" role="radio" aria-checked="false">Professional</button>
@@ -142,7 +142,9 @@
               </div>
             </div>
 
-            <button id="generate-btn" type="submit" class="primary-btn"><span class="btn-text">Create my ad</span></button>
+            <div class="sticky-submit">
+              <button id="generate-btn" type="submit" class="primary-btn"><span class="btn-text">Create my ad</span></button>
+            </div>
           </form>
           <p id="status" class="status" aria-live="polite"></p>
         </section>
@@ -170,6 +172,31 @@
             <div class="step"><span class="step-num">1</span><span>Fill the form</span></div>
             <div class="step"><span class="step-num">2</span><span>Create your ad</span></div>
             <div class="step"><span class="step-num">3</span><span>Copy and use</span></div>
+          </div>
+          <div class="what-you-get">
+            <h3 class="what-heading">What you'll get</h3>
+            <div class="what-grid">
+              <div class="what-card">
+                <span class="what-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h10M4 18h7"/></svg></span>
+                <div class="what-title">Ad titles</div>
+                <div class="what-text">Short lines for the top of your ad</div>
+              </div>
+              <div class="what-card">
+                <span class="what-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 11h16M4 16h10"/></svg></span>
+                <div class="what-title">Ad descriptions</div>
+                <div class="what-text">Longer lines that explain your product</div>
+              </div>
+              <div class="what-card">
+                <span class="what-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="M20 20l-4-4"/></svg></span>
+                <div class="what-title">Search words</div>
+                <div class="what-text">What people type on Google</div>
+              </div>
+              <div class="what-card">
+                <span class="what-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 14l2-2 2 2 4-5"/></svg></span>
+                <div class="what-title">Poster idea</div>
+                <div class="what-text">A design idea for your poster</div>
+              </div>
+            </div>
           </div>
         </div>
 
