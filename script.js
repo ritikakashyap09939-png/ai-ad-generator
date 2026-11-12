@@ -107,13 +107,17 @@ form.addEventListener('submit', async (e) => {
 
   setStatus('', '');
   generateBtn.disabled = true;
-  generateBtn.textContent = 'Writing your ad...';
+  generateBtn.textContent = 'Creating your ad...';
+
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 30000);
 
   try {
     const res = await fetch('/api/generate', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ productName, audience, tone })
+      body: JSON.stringify({ productName, audience, tone }),
+      signal: controller.signal
     });
 
     const data = await res.json().catch(() => ({}));
@@ -126,9 +130,14 @@ form.addEventListener('submit', async (e) => {
     resultsEl.classList.remove('hidden');
     generateBtn.textContent = 'Create again';
   } catch (err) {
-    setStatus(err.message || 'Something went wrong.', 'error');
+    if (err && err.name === 'AbortError') {
+      setStatus('Server busy hai, please dobara try karo', 'error');
+    } else {
+      setStatus(err.message || 'Something went wrong.', 'error');
+    }
     generateBtn.textContent = 'Create my ad';
   } finally {
+    clearTimeout(timeoutId);
     generateBtn.disabled = false;
   }
 });
@@ -175,7 +184,7 @@ function renderHeadlines(headlines) {
   toShow.forEach((text) => headlinesEl.appendChild(makeTitleItem(text)));
 
   if (headlines.length > 5) {
-    toggleHeadlinesBtn.textContent = 'Show all 15 titles';
+    toggleHeadlinesBtn.textContent = `Show all ${headlines.length} titles`;
     toggleHeadlinesBtn.classList.remove('hidden');
   } else {
     toggleHeadlinesBtn.classList.add('hidden');
@@ -187,7 +196,7 @@ toggleHeadlinesBtn.addEventListener('click', () => {
   headlinesEl.innerHTML = '';
   const toShow = headlinesExpanded ? allHeadlines : allHeadlines.slice(0, 5);
   toShow.forEach((text) => headlinesEl.appendChild(makeTitleItem(text)));
-  toggleHeadlinesBtn.textContent = headlinesExpanded ? 'Show fewer' : 'Show all 15 titles';
+  toggleHeadlinesBtn.textContent = headlinesExpanded ? 'Show fewer' : `Show all ${allHeadlines.length} titles`;
 });
 
 function makeTitleItem(text) {
