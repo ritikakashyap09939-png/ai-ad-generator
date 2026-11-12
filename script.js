@@ -11,7 +11,7 @@ const PORTFOLIO_URL = "https://ritika-rajput-portfolio.vercel.app/";
       else d.classList.remove('active');
     });
   }
-  var current = document.documentElement.dataset.theme || 'purple';
+  var current = document.documentElement.dataset.theme || 'white';
   setActive(current);
   dots.forEach(function (dot) {
     dot.addEventListener('click', function () {
