@@ -17,7 +17,6 @@
     });
   });
 })();
-initThemeSwitcher();
 
 const form = document.getElementById('ad-form');
 const generateBtn = document.getElementById('generate-btn');
