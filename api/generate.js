@@ -91,8 +91,7 @@ module.exports = async function handler(req, res) {
       generationConfig: {
         responseMimeType: 'application/json',
         temperature: 0.7,
-        maxOutputTokens: 1200,
-        thinkingConfig: { thinkingBudget: 0 }
+        maxOutputTokens: 1200
       }
     };
 
