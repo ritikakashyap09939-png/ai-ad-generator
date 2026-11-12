@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ReadyAd - Free AI Google Ads Generator</title>
-  <meta name="description" content="Create Google Ads headlines and descriptions in 30 seconds">
+  <title>ReadyAd - Free AI Google Ads Generator | Headlines and Descriptions</title>
+  <meta name="description" content="ReadyAd is a free AI tool that creates Google Ads headlines, descriptions, and keywords in 30 seconds in English, Hindi, and Hinglish for your business.">
+  <meta name="robots" content="index, follow">
   <meta property="og:title" content="ReadyAd - Free AI Google Ads Generator">
   <meta property="og:description" content="Create Google Ads headlines and descriptions in 30 seconds">
   <meta property="og:image" content="https://readyad.vercel.app/og-image.png">
@@ -12,6 +13,49 @@
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://readyad.vercel.app/">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "name": "ReadyAd",
+        "url": "https://readyad.vercel.app/",
+        "applicationCategory": "BusinessApplication",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "INR"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Kya yeh tool free hai?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Haan, ReadyAd bilkul free hai. Aap bina kisi payment ke Google Ads copy generate kar sakte hain." }
+          },
+          {
+            "@type": "Question",
+            "name": "Kya yeh Hindi mein ads bana sakta hai?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Haan, ReadyAd English, Hindi (Devanagari), aur Hinglish mein ads create kar sakta hai." }
+          },
+          {
+            "@type": "Question",
+            "name": "ReadyAd kaise kaam karta hai?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Aap apne product, audience, age group aur tone ki details bharte hain, aur ReadyAd aapke liye ad titles, descriptions, keywords aur poster idea generate karta hai." }
+          },
+          {
+            "@type": "Question",
+            "name": "Kya main generated ads copy kar sakta hoon?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Haan, har headline, description, keyword list aur poster idea ke saath Copy button diya gaya hai, aur aap CSV download bhi kar sakte hain." }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="icon" type="image/x-icon" href="/favicon.ico">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
@@ -46,8 +90,8 @@
   <main class="container">
     <header class="site-header">
       <div class="brand-row">
-        <span class="logo" aria-hidden="true">
-          <img src="/logo-icon.svg" alt="" class="logo-img" width="22" height="22">
+        <span class="logo">
+          <img src="/logo-icon.svg" alt="ReadyAd logo" class="logo-img" width="22" height="22">
         </span>
         <span class="app-name" id="app-name">ReadyAd</span>
         <span class="badge">Powered by Gemini</span>
@@ -163,7 +207,7 @@
 
         <section id="recent-section" class="card recent-section hidden">
           <div class="recent-header">
-            <h3>Recent ads</h3>
+            <h2>Recent ads</h2>
             <button type="button" id="clear-history" class="link-btn small">Clear</button>
           </div>
           <ul id="recent-list" class="recent-list"></ul>
@@ -186,7 +230,7 @@
             <div class="step"><span class="step-num">3</span><span>Copy and use</span></div>
           </div>
           <div class="what-you-get">
-            <h3 class="what-heading">What you'll get</h3>
+            <h2 class="what-heading">What you'll get</h2>
             <div class="what-grid">
               <div class="what-card">
                 <span class="what-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h10M4 18h7"/></svg></span>
@@ -276,6 +320,34 @@
 
           <div class="result-actions anim" style="--d:5">
             <button id="download-csv" type="button" class="secondary-btn outline">Download CSV</button>
+          </div>
+        </section>
+
+        <section class="seo-info anim" style="--d:6">
+          <div class="card">
+            <h2>How it works</h2>
+            <p>ReadyAd makes creating Google Ads simple. Fill in a few quick details about your product, audience, and tone, then click Create my ad. In about 30 seconds, ReadyAd generates ad titles, descriptions, search words, and a poster idea you can copy and use.</p>
+          </div>
+          <div class="card">
+            <h2>FAQ</h2>
+            <div class="faq-list">
+              <div class="faq-item">
+                <h3>Kya yeh tool free hai?</h3>
+                <p>Haan, ReadyAd bilkul free hai. Aap bina kisi payment ke Google Ads copy generate kar sakte hain.</p>
+              </div>
+              <div class="faq-item">
+                <h3>Kya yeh Hindi mein ads bana sakta hai?</h3>
+                <p>Haan, ReadyAd English, Hindi (Devanagari), aur Hinglish mein ads create kar sakta hai.</p>
+              </div>
+              <div class="faq-item">
+                <h3>ReadyAd kaise kaam karta hai?</h3>
+                <p>Aap apne product, audience, age group aur tone ki details bharte hain, aur ReadyAd aapke liye ad titles, descriptions, keywords aur poster idea generate karta hai.</p>
+              </div>
+              <div class="faq-item">
+                <h3>Kya main generated ads copy kar sakta hoon?</h3>
+                <p>Haan, har headline, description, keyword list aur poster idea ke saath Copy button diya gaya hai, aur aap CSV download bhi kar sakte hain.</p>
+              </div>
+            </div>
           </div>
         </section>
       </section>
