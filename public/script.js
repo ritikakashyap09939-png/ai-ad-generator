@@ -1,4 +1,4 @@
-const APP_NAME = "AdSpark";
+const APP_NAME = "ReadyAd";
 const OWNER_NAME = "Ritika Rajput";
 const GITHUB_URL = "https://github.com/ritikakashyap09939-png";
 const PORTFOLIO_URL = "https://ritika-rajput-portfolio.vercel.app/";
@@ -443,20 +443,20 @@ downloadCsvBtn.addEventListener('click', () => {
   const a = document.createElement('a');
   const slug = (lastProductName || 'ads').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || 'ads';
   a.href = URL.createObjectURL(blob);
-  a.download = `adspark-${slug}.csv`;
+  a.download = `readyad-${slug}.csv`;
   document.body.appendChild(a); a.click(); document.body.removeChild(a);
   URL.revokeObjectURL(a.href);
 });
 
 function loadHistory() {
-  try { return JSON.parse(localStorage.getItem('adspark-history') || '[]'); } catch { return []; }
+  try { return JSON.parse(localStorage.getItem('readyad-history') || '[]'); } catch { return []; }
 }
 function saveHistory(entry) {
   try {
     let h = loadHistory();
     h.unshift(entry);
     h = h.slice(0, 5);
-    localStorage.setItem('adspark-history', JSON.stringify(h));
+    localStorage.setItem('readyad-history', JSON.stringify(h));
   } catch {}
 }
 function renderHistory() {
@@ -503,7 +503,7 @@ function restoreHistory(item) {
   clearErrors();
 }
 document.getElementById('clear-history').addEventListener('click', () => {
-  try { localStorage.removeItem('adspark-history'); } catch {}
+  try { localStorage.removeItem('readyad-history'); } catch {}
   renderHistory();
 });
 
