@@ -13,7 +13,8 @@ Rules:
 - Poster idea: exactly 2 short lines.
 - Do not include numbering, labels, or quotes inside the strings beyond normal text.
 - Keep copy relevant to the provided product, audience, and tone.
-- Never write medical or guaranteed-result claims. Do not use phrases like 'dermatologist approved', 'clinically proven', 'guaranteed results', 'cures', or 'fade dark spots fast'. Keep claims soft and honest, like 'helps you glow' or 'made for daily care'. Keep every headline under 30 characters and every description under 90 characters.`;
+- Never write medical or guaranteed-result claims. Do not use phrases like 'dermatologist approved', 'clinically proven', 'guaranteed results', 'cures', or 'fade dark spots fast'. Keep claims soft and honest, like 'helps you glow' or 'made for daily care'. Keep every headline under 30 characters and every description under 90 characters.
+- Every description must be a complete sentence under 90 characters, never cut off mid-word.`;
 
 function buildSystemPrompt(language, benefit) {
   let extra = '';
@@ -35,14 +36,19 @@ function extractJSON(text) {
   throw new Error('Invalid JSON response from model');
 }
 
-function trimTo(str, max) {
+function trimToWord(str, max) {
   if (typeof str !== 'string') return '';
-  return str.length <= max ? str : str.slice(0, max).trim();
+  const s = str.trim();
+  if (s.length <= max) return s;
+  const cut = s.slice(0, max + 1);
+  const lastSpace = cut.lastIndexOf(' ');
+  if (lastSpace > 0) return cut.slice(0, lastSpace).trim();
+  return s.slice(0, max).trim();
 }
 
 function normalize(data) {
-  const headlines = Array.isArray(data.headlines) ? data.headlines.slice(0, 10).map((s) => trimTo(String(s), 30)) : [];
-  const descriptions = Array.isArray(data.descriptions) ? data.descriptions.slice(0, 4).map((s) => trimTo(String(s), 90)) : [];
+  const headlines = Array.isArray(data.headlines) ? data.headlines.slice(0, 10).map((s) => String(s || '').trim()) : [];
+  const descriptions = Array.isArray(data.descriptions) ? data.descriptions.slice(0, 4).map((s) => String(s || '').trim()) : [];
   const keywords = Array.isArray(data.keywords) ? data.keywords.slice(0, 8).map((s) => String(s).trim()).filter(Boolean) : [];
   const posterIdea = typeof data.posterIdea === 'string' ? data.posterIdea.trim() : '';
 
@@ -50,6 +56,19 @@ function normalize(data) {
     throw new Error('Model returned incomplete ad assets');
   }
   return { headlines, descriptions, keywords, posterIdea };
+}
+
+function fitToLimits(data) {
+  return {
+    headlines: data.headlines.map((s) => (s.length > 30 ? trimToWord(s, 30) : s)),
+    descriptions: data.descriptions.map((s) => (s.length > 90 ? trimToWord(s, 90) : s)),
+    keywords: data.keywords,
+    posterIdea: data.posterIdea
+  };
+}
+
+function hasOverLimit(data) {
+  return data.headlines.some((s) => s.length > 30) || data.descriptions.some((s) => s.length > 90);
 }
 
 async function callGemini(model, apiKey, body, timeoutMs) {
@@ -166,8 +185,50 @@ module.exports = async function handler(req, res) {
     }
 
     const parsed = extractJSON(text);
-    const normalized = normalize(parsed);
-    return res.status(200).json(normalized);
+    let normalized = normalize(parsed);
+
+    if (hasOverLimit(normalized)) {
+      const elapsed = Date.now() - overallStart;
+      const remaining = overallLimit - elapsed;
+      if (remaining > 0) {
+        try {
+          const shortenPrompt = `Shorten any headline over 30 characters and any description over 90 characters. Every description must be a complete sentence under 90 characters, never cut off mid-word. Keep meaning and tone. Return the same JSON shape with exactly 10 headlines, 4 descriptions, 8 keywords, and posterIdea.\nCurrent JSON:\n${JSON.stringify(normalized)}`;
+          const shortenBody = {
+            systemInstruction: { parts: [{ text: systemPrompt }] },
+            contents: [{ parts: [{ text: shortenPrompt }] }],
+            generationConfig: {
+              responseMimeType: 'application/json',
+              temperature: 0.7,
+              maxOutputTokens: 1200
+            }
+          };
+          const shortenTimeout = Math.min(15000, remaining);
+          const shortenResp = await callGemini(model, apiKey, shortenBody, shortenTimeout);
+          if (shortenResp && shortenResp.ok) {
+            const shortenResult = await shortenResp.json();
+            const shortenText = shortenResult.candidates &&
+              shortenResult.candidates[0] &&
+              shortenResult.candidates[0].content &&
+              shortenResult.candidates[0].content.parts &&
+              shortenResult.candidates[0].content.parts[0] &&
+              shortenResult.candidates[0].content.parts[0].text
+              ? shortenResult.candidates[0].content.parts[0].text
+              : '';
+            if (shortenText) {
+              const shortenParsed = extractJSON(shortenText);
+              normalized = normalize(shortenParsed);
+            }
+          }
+        } catch (e) {
+          if (isTimeoutError(e)) {
+            return res.status(503).json({ error: 'Server busy hai, please dobara try karo' });
+          }
+        }
+      }
+    }
+
+    const finalData = fitToLimits(normalized);
+    return res.status(200).json(finalData);
   } catch (err) {
     if (isTimeoutError(err)) {
       return res.status(503).json({ error: 'Server busy hai, please dobara try karo' });
