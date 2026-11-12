@@ -1,4 +1,4 @@
-const SYSTEM_PROMPT = `You are an expert Google Ads copywriter. Generate ad assets as strict JSON only (no markdown, no extra text).
+const SYSTEM_PROMPT_BASE = `You are an expert Google Ads copywriter. Generate ad assets as strict JSON only (no markdown, no extra text).
 Return exactly this shape:
 {
   "headlines": ["..."],        // 10 items, each <= 30 characters
@@ -14,6 +14,16 @@ Rules:
 - Do not include numbering, labels, or quotes inside the strings beyond normal text.
 - Keep copy relevant to the provided product, audience, and tone.
 - Never write medical or guaranteed-result claims. Do not use phrases like 'dermatologist approved', 'clinically proven', 'guaranteed results', 'cures', or 'fade dark spots fast'. Keep claims soft and honest, like 'helps you glow' or 'made for daily care'. Keep every headline under 30 characters and every description under 90 characters.`;
+
+function buildSystemPrompt(language, benefit) {
+  let extra = '';
+  const lang = (typeof language === 'string' && language.trim()) ? language.trim() : 'English';
+  extra += `\n- Write all ad copy in ${lang}. Hinglish means Hindi written in English letters.`;
+  if (typeof benefit === 'string' && benefit.trim()) {
+    extra += `\n- Highlight this main benefit: ${benefit.trim()}.`;
+  }
+  return SYSTEM_PROMPT_BASE + extra;
+}
 
 function extractJSON(text) {
   const trimmed = text.trim();
@@ -74,7 +84,7 @@ module.exports = async function handler(req, res) {
     return res.status(500).json({ error: 'GEMINI_API_KEY is not configured' });
   }
 
-  const { productName, audience, tone } = req.body || {};
+  const { productName, audience, tone, language, benefit } = req.body || {};
   if (!productName || !audience || !tone) {
     return res.status(400).json({ error: 'productName, audience, and tone are required' });
   }
@@ -85,8 +95,9 @@ module.exports = async function handler(req, res) {
 
   try {
     const userPrompt = `Product: ${productName}\nTarget audience: ${audience}\nTone: ${tone}`;
+    const systemPrompt = buildSystemPrompt(language, benefit);
     const body = {
-      systemInstruction: { parts: [{ text: SYSTEM_PROMPT }] },
+      systemInstruction: { parts: [{ text: systemPrompt }] },
       contents: [{ parts: [{ text: userPrompt }] }],
       generationConfig: {
         responseMimeType: 'application/json',

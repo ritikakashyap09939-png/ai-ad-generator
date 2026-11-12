@@ -1,3 +1,8 @@
+const APP_NAME = "AdSpark";
+const OWNER_NAME = "Ritika Rajput";
+const GITHUB_URL = "https://github.com/ritikakashyap09939-png";
+const PORTFOLIO_URL = "https://ritika-rajput-portfolio.vercel.app/";
+
 (function initThemeSwitcher() {
   var dots = document.querySelectorAll('.theme-dot');
   function setActive(theme) {
@@ -23,18 +28,24 @@ const generateBtn = document.getElementById('generate-btn');
 const statusEl = document.getElementById('status');
 const resultsEl = document.getElementById('results');
 const emptyStateEl = document.getElementById('empty-state');
+const loadingStateEl = document.getElementById('loading-state');
 
 const productInput = document.getElementById('productName');
 const genderInput = document.getElementById('gender');
 const ageFromInput = document.getElementById('age-from');
 const ageToInput = document.getElementById('age-to');
 const toneInput = document.getElementById('tone');
+const languageInput = document.getElementById('language');
+const websiteInput = document.getElementById('website');
+const benefitInput = document.getElementById('benefit');
 
 const errProduct = document.getElementById('err-product');
 const errAge = document.getElementById('err-age');
 
 const previewHeadline = document.getElementById('preview-headline');
 const previewDesc = document.getElementById('preview-desc');
+const previewSite = document.getElementById('preview-site');
+const previewWrap = document.getElementById('preview-wrap');
 const headlinesEl = document.getElementById('headlines');
 const toggleHeadlinesBtn = document.getElementById('toggle-headlines');
 const descriptionsEl = document.getElementById('descriptions');
@@ -42,28 +53,90 @@ const keywordsEl = document.getElementById('keywords');
 const copyAllKeywordsBtn = document.getElementById('copy-all-keywords');
 const posterTextEl = document.getElementById('poster-text');
 const copyPosterBtn = document.getElementById('copy-poster');
+const strengthMeterEl = document.getElementById('strength-meter');
+const safetySummaryEl = document.getElementById('safety-summary');
+const downloadCsvBtn = document.getElementById('download-csv');
+const toastEl = document.getElementById('toast');
+const recentSection = document.getElementById('recent-section');
+const recentList = document.getElementById('recent-list');
+
+const RISKY_PHRASES = ['guaranteed','100%','no.1','#1','best in','cure','miracle','dermatologist','clinically proven','risk-free','fast results','lose weight fast'];
 
 let allHeadlines = [];
 let headlinesExpanded = false;
+let lastResult = null;
+let lastProductName = '';
+
+const EXAMPLES = {
+  coffee: { product: 'Brew & Bloom Coffee', gender: 'Everyone', from: 20, to: 40, tone: 'Friendly', language: 'English', website: 'brewandbloom.com', benefit: 'freshly roasted every day' },
+  yoga: { product: 'Sunrise Yoga Classes', gender: 'Women', from: 18, to: 45, tone: 'Friendly', language: 'English', website: 'sunriseyoga.com', benefit: 'beginner friendly sessions' },
+  course: { product: 'SkillUp Online Course', gender: 'Everyone', from: 18, to: 35, tone: 'Professional', language: 'English', website: 'skillup.com', benefit: 'learn at your own pace' },
+  skincare: { product: 'GlowUp Vitamin C Serum', gender: 'Women', from: 20, to: 45, tone: 'Luxury', language: 'English', website: 'glowup.com', benefit: 'made for daily care' }
+};
 
 function setupChipGroup(containerId, hiddenInput, dataAttr) {
   const container = document.getElementById(containerId);
   if (!container) return;
-  container.querySelectorAll('.chip').forEach((chip) => {
+  container.querySelectorAll('.chip[data-' + dataAttr + ']').forEach((chip) => {
     chip.addEventListener('click', () => {
-      container.querySelectorAll('.chip').forEach((c) => {
+      container.querySelectorAll('.chip[data-' + dataAttr + ']').forEach((c) => {
         c.classList.remove('selected');
         c.setAttribute('aria-checked', 'false');
       });
       chip.classList.add('selected');
       chip.setAttribute('aria-checked', 'true');
-      hiddenInput.value = chip.dataset[dataAttr] || hiddenInput.value;
+      if (hiddenInput) hiddenInput.value = chip.dataset[dataAttr] || hiddenInput.value;
     });
   });
 }
-
 setupChipGroup('gender-chips', genderInput, 'gender');
 setupChipGroup('tone-chips', toneInput, 'tone');
+setupChipGroup('lang-chips', languageInput, 'lang');
+
+document.querySelectorAll('.example-chip').forEach((btn) => {
+  btn.addEventListener('click', () => {
+    const ex = EXAMPLES[btn.dataset.example];
+    if (!ex) return;
+    productInput.value = ex.product;
+    ageFromInput.value = ex.from;
+    ageToInput.value = ex.to;
+    websiteInput.value = ex.website || '';
+    benefitInput.value = ex.benefit || '';
+    setChipSelection('gender-chips', 'gender', ex.gender, genderInput);
+    setChipSelection('tone-chips', 'tone', ex.tone, toneInput);
+    setChipSelection('lang-chips', 'lang', ex.language, languageInput);
+    clearErrors();
+    generateBtn.focus();
+  });
+});
+
+function setChipSelection(containerId, attr, value, hidden) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+  container.querySelectorAll('.chip[data-' + attr + ']').forEach((c) => {
+    const match = c.dataset[attr] === value;
+    c.classList.toggle('selected', match);
+    c.setAttribute('aria-checked', match ? 'true' : 'false');
+  });
+  if (hidden) hidden.value = value;
+}
+
+const moreToggle = document.getElementById('more-toggle');
+const morePanel = document.getElementById('more-panel');
+moreToggle.addEventListener('click', () => {
+  const open = morePanel.classList.toggle('hidden') ? false : true;
+  moreToggle.classList.toggle('open', open);
+  moreToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+});
+
+document.querySelectorAll('.preview-toggle .toggle-btn').forEach((btn) => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.preview-toggle .toggle-btn').forEach((b) => b.classList.remove('active'));
+    btn.classList.add('active');
+    if (btn.dataset.view === 'mobile') previewWrap.classList.add('mobile');
+    else previewWrap.classList.remove('mobile');
+  });
+});
 
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
@@ -74,6 +147,9 @@ form.addEventListener('submit', async (e) => {
   const ageFromStr = ageFromInput.value;
   const ageToStr = ageToInput.value;
   const tone = toneInput.value.trim() || 'Friendly';
+  const language = languageInput.value || 'English';
+  const website = websiteInput.value.trim();
+  const benefit = benefitInput.value.trim();
 
   let hasError = false;
   if (!productName) {
@@ -107,7 +183,10 @@ form.addEventListener('submit', async (e) => {
 
   setStatus('', '');
   generateBtn.disabled = true;
-  generateBtn.textContent = 'Creating your ad...';
+  generateBtn.innerHTML = '<span class="spinner"></span><span class="btn-text">Writing your ad...</span>';
+  emptyStateEl.classList.add('hidden');
+  resultsEl.classList.add('hidden');
+  loadingStateEl.classList.remove('hidden');
 
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), 30000);
@@ -116,7 +195,7 @@ form.addEventListener('submit', async (e) => {
     const res = await fetch('/api/generate', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ productName, audience, tone }),
+      body: JSON.stringify({ productName, audience, tone, language, website, benefit }),
       signal: controller.signal
     });
 
@@ -125,11 +204,17 @@ form.addEventListener('submit', async (e) => {
       throw new Error(data.error || 'Failed to generate ads');
     }
 
-    renderResults(data);
-    if (emptyStateEl) emptyStateEl.classList.add('hidden');
+    lastResult = data;
+    lastProductName = productName;
+    renderResults(data, website);
+    saveHistory({ productName, gender, ageFrom, ageTo, tone, language, website, benefit, result: data, ts: Date.now() });
+    renderHistory();
+    loadingStateEl.classList.add('hidden');
     resultsEl.classList.remove('hidden');
     generateBtn.textContent = 'Create again';
   } catch (err) {
+    loadingStateEl.classList.add('hidden');
+    emptyStateEl.classList.remove('hidden');
     if (err && err.name === 'AbortError') {
       setStatus('Server busy hai, please dobara try karo', 'error');
     } else {
@@ -150,30 +235,94 @@ function clearErrors() {
   ageToInput.classList.remove('input-error');
   setStatus('', '');
 }
-
 function setStatus(msg, type) {
   statusEl.textContent = msg;
   statusEl.className = 'status' + (type ? ' ' + type : '');
 }
 
-function renderResults(data) {
+function hasRisky(text) {
+  const t = String(text || '').toLowerCase();
+  return RISKY_PHRASES.some((p) => t.includes(p));
+}
+
+function renderResults(data, website) {
   const headlines = Array.isArray(data.headlines) ? data.headlines : [];
   const descriptions = Array.isArray(data.descriptions) ? data.descriptions : [];
   const keywords = Array.isArray(data.keywords) ? data.keywords : [];
   const posterIdea = data.posterIdea || '';
 
-  renderPreview(headlines, descriptions);
+  renderPreview(headlines, descriptions, website);
+  renderSafety(headlines, descriptions);
+  renderStrength(headlines, descriptions, keywords);
   renderHeadlines(headlines);
   renderDescriptions(descriptions);
   renderKeywords(keywords);
   renderPoster(posterIdea);
 }
 
-function renderPreview(headlines, descriptions) {
+function renderPreview(headlines, descriptions, website) {
   const h1 = headlines[0] || '';
   const h2 = headlines[1] || '';
   previewHeadline.textContent = [h1, h2].filter(Boolean).join(' | ');
   previewDesc.textContent = descriptions[0] || '';
+  previewSite.textContent = website || 'www.yourwebsite.com';
+}
+
+function renderSafety(headlines, descriptions) {
+  const lines = [].concat(headlines, descriptions);
+  let flagged = 0;
+  lines.forEach((t) => { if (hasRisky(t)) flagged++; });
+  if (flagged === 0) {
+    safetySummaryEl.className = 'safety-summary safe anim';
+    safetySummaryEl.style.setProperty('--d', 0);
+    safetySummaryEl.innerHTML = 'Looks safe for Google Ads<span class="sub">Quick helper only, not official Google review.</span>';
+  } else {
+    safetySummaryEl.className = 'safety-summary warn anim';
+    safetySummaryEl.style.setProperty('--d', 0);
+    safetySummaryEl.innerHTML = `${flagged} line${flagged > 1 ? 's' : ''} need a check<span class="sub">Quick helper only, not official Google review.</span>`;
+  }
+}
+
+function renderStrength(headlines, descriptions, keywords) {
+  let score = 0;
+  if (headlines.length >= 12) score += 2; else if (headlines.length >= 8) score += 1;
+  if (headlines.length > 0 && headlines.every((h) => h.length <= 30)) score += 1;
+  if (descriptions.length > 0 && descriptions.every((d) => d.length <= 90)) score += 1;
+  if (keywords.length >= 8) score += 1;
+  const kwWords = keywords.map((k) => String(k).toLowerCase());
+  let kwMatches = 0;
+  headlines.forEach((h) => {
+    const ht = h.toLowerCase();
+    if (kwWords.some((w) => w && ht.includes(w.split(' ')[0]))) kwMatches++;
+  });
+  if (kwMatches >= 3) score += 1;
+  const hasRisk = [].concat(headlines, descriptions).some(hasRisky);
+  if (!hasRisk) score += 1;
+
+  let label = 'Poor', level = 'poor';
+  if (score >= 6) { label = 'Excellent'; level = 'excellent'; }
+  else if (score === 5) { label = 'Good'; level = 'good'; }
+  else if (score >= 3) { label = 'Average'; level = 'average'; }
+  const filled = score >= 6 ? 4 : score >= 5 ? 3 : score >= 3 ? 2 : 1;
+  let segs = '';
+  for (let i = 0; i < 4; i++) {
+    segs += `<div class="strength-seg ${i < filled ? 'on ' + level : ''}"></div>`;
+  }
+  strengthMeterEl.innerHTML = `<div class="strength-top"><span>Ad strength:</span><span class="strength-label">${label}</span><span class="info-tip" tabindex="0">i<span class="tip-text">Based on: number of titles (12+ best), titles within 30 chars, descriptions within 90 chars, at least 8 keywords, at least 3 titles using keyword words, and no risky claims.</span></span></div><div class="strength-bar">${segs}</div>`;
+}
+
+function charClass(len, limit) {
+  if (limit === 30) {
+    if (len > 30) return 'err';
+    if (len >= 28) return 'warn';
+    return 'ok';
+  }
+  if (limit === 90) {
+    if (len > 90) return 'err';
+    if (len >= 81) return 'warn';
+    return 'ok';
+  }
+  return 'ok';
 }
 
 function renderHeadlines(headlines) {
@@ -181,8 +330,7 @@ function renderHeadlines(headlines) {
   headlinesExpanded = false;
   headlinesEl.innerHTML = '';
   const toShow = headlines.slice(0, 5);
-  toShow.forEach((text) => headlinesEl.appendChild(makeTitleItem(text)));
-
+  toShow.forEach((text) => headlinesEl.appendChild(makeTextItem(text, 30)));
   if (headlines.length > 5) {
     toggleHeadlinesBtn.textContent = `Show all ${headlines.length} titles`;
     toggleHeadlinesBtn.classList.remove('hidden');
@@ -195,24 +343,28 @@ toggleHeadlinesBtn.addEventListener('click', () => {
   headlinesExpanded = !headlinesExpanded;
   headlinesEl.innerHTML = '';
   const toShow = headlinesExpanded ? allHeadlines : allHeadlines.slice(0, 5);
-  toShow.forEach((text) => headlinesEl.appendChild(makeTitleItem(text)));
+  toShow.forEach((text) => headlinesEl.appendChild(makeTextItem(text, 30)));
   toggleHeadlinesBtn.textContent = headlinesExpanded ? 'Show fewer' : `Show all ${allHeadlines.length} titles`;
 });
 
-function makeTitleItem(text) {
+function makeTextItem(text, limit) {
   const li = document.createElement('li');
   li.className = 'item';
-
   const textWrap = document.createElement('div');
   textWrap.className = 'item-text';
   const span = document.createElement('span');
   span.textContent = text;
-  const meta = document.createElement('span');
-  meta.className = 'item-meta';
-  meta.textContent = `${text.length}/30`;
   textWrap.appendChild(span);
+  const meta = document.createElement('span');
+  meta.className = 'item-meta ' + charClass(text.length, limit);
+  meta.textContent = `${text.length}/${limit}`;
   textWrap.appendChild(meta);
-
+  if (hasRisky(text)) {
+    const badge = document.createElement('span');
+    badge.className = 'claim-badge';
+    badge.textContent = 'Check claim';
+    textWrap.appendChild(badge);
+  }
   li.appendChild(textWrap);
   li.appendChild(makeCopyButton(text));
   return li;
@@ -220,20 +372,7 @@ function makeTitleItem(text) {
 
 function renderDescriptions(descriptions) {
   descriptionsEl.innerHTML = '';
-  descriptions.forEach((text) => {
-    const li = document.createElement('li');
-    li.className = 'item';
-
-    const textWrap = document.createElement('div');
-    textWrap.className = 'item-text';
-    const span = document.createElement('span');
-    span.textContent = text;
-    textWrap.appendChild(span);
-
-    li.appendChild(textWrap);
-    li.appendChild(makeCopyButton(text));
-    descriptionsEl.appendChild(li);
-  });
+  descriptions.forEach((text) => descriptionsEl.appendChild(makeTextItem(text, 90)));
 }
 
 function renderKeywords(keywords) {
@@ -246,62 +385,131 @@ function renderKeywords(keywords) {
   });
   copyAllKeywordsBtn.onclick = async () => {
     const text = keywords.join(', ');
-    try {
-      await navigator.clipboard.writeText(text);
-      flashCopied(copyAllKeywordsBtn, 'Copy all words');
-    } catch {
-      fallbackCopy(text);
-      flashCopied(copyAllKeywordsBtn, 'Copy all words');
-    }
+    await copyText(text);
+    flashCopied(copyAllKeywordsBtn, 'Copy all words');
   };
 }
 
 function renderPoster(text) {
   posterTextEl.textContent = text;
   copyPosterBtn.onclick = async () => {
-    try {
-      await navigator.clipboard.writeText(text);
-      flashCopied(copyPosterBtn, 'Copy');
-    } catch {
-      fallbackCopy(text);
-      flashCopied(copyPosterBtn, 'Copy');
-    }
+    await copyText(text);
+    flashCopied(copyPosterBtn, 'Copy');
   };
 }
 
+async function copyText(text) {
+  try { await navigator.clipboard.writeText(text); }
+  catch { fallbackCopy(text); }
+  showToast('Copied to clipboard');
+}
 function makeCopyButton(text) {
   const btn = document.createElement('button');
   btn.type = 'button';
   btn.className = 'copy-btn';
   btn.textContent = 'Copy';
   btn.addEventListener('click', async () => {
-    try {
-      await navigator.clipboard.writeText(text);
-      flashCopied(btn, 'Copy');
-    } catch {
-      fallbackCopy(text);
-      flashCopied(btn, 'Copy');
-    }
+    await copyText(text);
+    flashCopied(btn, 'Copy');
   });
   return btn;
 }
-
 function fallbackCopy(text) {
   const ta = document.createElement('textarea');
-  ta.value = text;
-  ta.style.position = 'fixed';
-  ta.style.opacity = '0';
-  document.body.appendChild(ta);
-  ta.select();
-  document.execCommand('copy');
-  document.body.removeChild(ta);
+  ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+  document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
 }
-
 function flashCopied(btn, original) {
   btn.textContent = '✓ Copied';
   btn.classList.add('copied');
-  setTimeout(() => {
-    btn.textContent = original;
-    btn.classList.remove('copied');
-  }, 1500);
+  setTimeout(() => { btn.textContent = original; btn.classList.remove('copied'); }, 1500);
 }
+let toastTimer;
+function showToast(msg) {
+  toastEl.textContent = msg;
+  toastEl.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toastEl.classList.remove('show'), 1800);
+}
+
+downloadCsvBtn.addEventListener('click', () => {
+  if (!lastResult) return;
+  const rows = [['Type', 'Text']];
+  (lastResult.headlines || []).forEach((t) => rows.push(['Headline', t]));
+  (lastResult.descriptions || []).forEach((t) => rows.push(['Description', t]));
+  (lastResult.keywords || []).forEach((t) => rows.push(['Keyword', t]));
+  const csv = rows.map((r) => r.map((c) => '"' + String(c).replace(/"/g, '""') + '"').join(',')).join('\n');
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const a = document.createElement('a');
+  const slug = (lastProductName || 'ads').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || 'ads';
+  a.href = URL.createObjectURL(blob);
+  a.download = `adspark-${slug}.csv`;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(a.href);
+});
+
+function loadHistory() {
+  try { return JSON.parse(localStorage.getItem('adspark-history') || '[]'); } catch { return []; }
+}
+function saveHistory(entry) {
+  try {
+    let h = loadHistory();
+    h.unshift(entry);
+    h = h.slice(0, 5);
+    localStorage.setItem('adspark-history', JSON.stringify(h));
+  } catch {}
+}
+function renderHistory() {
+  const h = loadHistory();
+  if (!h.length) { recentSection.classList.add('hidden'); return; }
+  recentSection.classList.remove('hidden');
+  recentList.innerHTML = '';
+  h.forEach((item) => {
+    const li = document.createElement('li');
+    li.className = 'recent-item';
+    const name = document.createElement('span');
+    name.textContent = item.productName || 'Untitled';
+    const time = document.createElement('span');
+    time.className = 'recent-time';
+    time.textContent = formatTime(item.ts);
+    li.appendChild(name); li.appendChild(time);
+    li.addEventListener('click', () => restoreHistory(item));
+    recentList.appendChild(li);
+  });
+}
+function formatTime(ts) {
+  if (!ts) return '';
+  const d = new Date(ts);
+  return d.toLocaleString([], { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+}
+function restoreHistory(item) {
+  productInput.value = item.productName || '';
+  ageFromInput.value = item.ageFrom != null ? item.ageFrom : 18;
+  ageToInput.value = item.ageTo != null ? item.ageTo : 45;
+  websiteInput.value = item.website || '';
+  benefitInput.value = item.benefit || '';
+  setChipSelection('gender-chips', 'gender', item.gender || 'Everyone', genderInput);
+  setChipSelection('tone-chips', 'tone', item.tone || 'Friendly', toneInput);
+  setChipSelection('lang-chips', 'lang', item.language || 'English', languageInput);
+  if (item.result) {
+    lastResult = item.result;
+    lastProductName = item.productName || '';
+    renderResults(item.result, item.website || '');
+    emptyStateEl.classList.add('hidden');
+    loadingStateEl.classList.add('hidden');
+    resultsEl.classList.remove('hidden');
+    generateBtn.textContent = 'Create again';
+  }
+  clearErrors();
+}
+document.getElementById('clear-history').addEventListener('click', () => {
+  try { localStorage.removeItem('adspark-history'); } catch {}
+  renderHistory();
+});
+
+document.getElementById('app-name').textContent = APP_NAME;
+document.getElementById('owner-name').textContent = OWNER_NAME;
+document.getElementById('github-link').href = GITHUB_URL;
+document.getElementById('portfolio-link').href = PORTFOLIO_URL;
+
+renderHistory();

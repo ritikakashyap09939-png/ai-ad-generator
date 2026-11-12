@@ -3,7 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AI Ad Generator</title>
+  <title>AdSpark - AI Google Ads Copy Generator</title>
+  <meta name="description" content="AdSpark helps you create Google Ads headlines, descriptions, keywords, and poster ideas in seconds with AI.">
+  <meta property="og:title" content="AdSpark - AI Google Ads Copy Generator">
+  <meta property="og:description" content="Answer a few quick questions and get ready-to-use Google Ads copy in seconds.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%238b5cf6' d='M12 2l1.8 5.4L19 9l-5.2 1.6L12 16l-1.8-5.4L5 9l5.2-1.6L12 2zm7 9l.9 2.7L22 14.5l-2.1.7L19 18l-.9-2.8-2.1-.7 2.1-.8L19 11zm-14 1l.9 2.7L8 15.5l-2.1.7L5 19l-.9-2.8-2.1-.7 2.1-.8L5 12z'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
   <script>
     (function () {
@@ -24,14 +32,31 @@
   </div>
 
   <main class="container">
-    <header class="hero">
-      <h1>Make your ad in 30 seconds</h1>
-      <p class="subtext">Answer 3 quick questions. We write the ad for you.</p>
+    <header class="site-header">
+      <div class="brand-row">
+        <span class="logo" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 2l1.8 5.4L19 9l-5.2 1.6L12 16l-1.8-5.4L5 9l5.2-1.6L12 2zm7 9l.9 2.7L22 14.5l-2.1.7L19 18l-.9-2.8-2.1-.7 2.1-.8L19 11zm-14 1l.9 2.7L8 15.5l-2.1.7L5 19l-.9-2.8-2.1-.7 2.1-.8L5 12z" fill="currentColor"/></svg>
+        </span>
+        <span class="app-name" id="app-name">AdSpark</span>
+        <span class="badge">Powered by Gemini</span>
+      </div>
+      <h1 class="hero-title">Make your ad in 30 seconds</h1>
+      <p class="subtext">Answer a few quick questions. We write the ad for you.</p>
     </header>
 
     <div class="layout">
       <aside class="left-col">
         <section class="card form-card">
+          <div class="examples">
+            <span class="examples-label">Try an example:</span>
+            <div class="example-chips">
+              <button type="button" class="chip example-chip" data-example="coffee">Coffee shop</button>
+              <button type="button" class="chip example-chip" data-example="yoga">Yoga classes</button>
+              <button type="button" class="chip example-chip" data-example="course">Online course</button>
+              <button type="button" class="chip example-chip" data-example="skincare">Skincare serum</button>
+            </div>
+          </div>
+
           <form id="ad-form" novalidate>
             <div class="question">
               <div class="q-header">
@@ -43,38 +68,40 @@
               <p id="err-product" class="field-error" aria-live="polite"></p>
             </div>
 
-            <div class="question">
-              <div class="q-header">
-                <span class="q-num">2</span>
-                <span class="q-label">Who will buy it?</span>
+            <div class="q-section">
+              <div class="question compact">
+                <div class="q-header">
+                  <span class="q-num">2</span>
+                  <span class="q-label">Who will buy it?</span>
+                </div>
+                <p class="helper">Pick who you want to reach</p>
+                <div id="gender-chips" class="chips" role="radiogroup" aria-label="Audience">
+                  <button type="button" class="chip" data-gender="Women" role="radio" aria-checked="false">Women</button>
+                  <button type="button" class="chip" data-gender="Men" role="radio" aria-checked="false">Men</button>
+                  <button type="button" class="chip selected" data-gender="Everyone" role="radio" aria-checked="true">Everyone</button>
+                </div>
+                <input type="hidden" id="gender" name="gender" value="Everyone">
               </div>
-              <p class="helper">Pick who you want to reach</p>
-              <div id="gender-chips" class="chips" role="radiogroup" aria-label="Audience">
-                <button type="button" class="chip" data-gender="Women" role="radio" aria-checked="false">Women</button>
-                <button type="button" class="chip" data-gender="Men" role="radio" aria-checked="false">Men</button>
-                <button type="button" class="chip selected" data-gender="Everyone" role="radio" aria-checked="true">Everyone</button>
-              </div>
-              <input type="hidden" id="gender" name="gender" value="Everyone">
-            </div>
 
-            <div class="question">
-              <div class="q-header">
-                <span class="q-num">3</span>
-                <span class="q-label">What age group?</span>
-              </div>
-              <p class="helper">Choose the age range of your buyers</p>
-              <div class="age-row">
-                <div class="age-field">
-                  <label for="age-from" class="age-label">From</label>
-                  <input id="age-from" name="ageFrom" type="number" min="13" max="65" value="18">
+              <div class="question compact">
+                <div class="q-header">
+                  <span class="q-num">3</span>
+                  <span class="q-label">What age group?</span>
                 </div>
-                <span class="age-sep">to</span>
-                <div class="age-field">
-                  <label for="age-to" class="age-label">To</label>
-                  <input id="age-to" name="ageTo" type="number" min="13" max="65" value="45">
+                <p class="helper">Choose the age range of your buyers</p>
+                <div class="age-row">
+                  <div class="age-field">
+                    <label for="age-from" class="age-label">From</label>
+                    <input id="age-from" name="ageFrom" type="number" min="13" max="65" value="18">
+                  </div>
+                  <span class="age-sep">to</span>
+                  <div class="age-field">
+                    <label for="age-to" class="age-label">To</label>
+                    <input id="age-to" name="ageTo" type="number" min="13" max="65" value="45">
+                  </div>
                 </div>
+                <p id="err-age" class="field-error" aria-live="polite"></p>
               </div>
-              <p id="err-age" class="field-error" aria-live="polite"></p>
             </div>
 
             <div class="question">
@@ -92,57 +119,139 @@
               <input type="hidden" id="tone" name="tone" value="Friendly">
             </div>
 
-            <button id="generate-btn" type="submit" class="primary-btn">Create my ad</button>
+            <div class="more-options">
+              <button type="button" id="more-toggle" class="more-toggle" aria-expanded="false">More options <span class="chev">▾</span></button>
+              <div id="more-panel" class="more-panel hidden">
+                <div class="question compact">
+                  <div class="q-header"><span class="q-label small">Language</span></div>
+                  <div id="lang-chips" class="chips" role="radiogroup" aria-label="Language">
+                    <button type="button" class="chip selected" data-lang="English" role="radio" aria-checked="true">English</button>
+                    <button type="button" class="chip" data-lang="Hindi" role="radio" aria-checked="false">Hindi</button>
+                    <button type="button" class="chip" data-lang="Hinglish" role="radio" aria-checked="false">Hinglish</button>
+                  </div>
+                  <input type="hidden" id="language" name="language" value="English">
+                </div>
+                <div class="question compact">
+                  <label for="website" class="q-label small">Website link <span class="muted">(optional)</span></label>
+                  <input id="website" name="website" type="text" class="full-input" placeholder="yourwebsite.com">
+                </div>
+                <div class="question compact">
+                  <label for="benefit" class="q-label small">Main benefit <span class="muted">(optional)</span></label>
+                  <input id="benefit" name="benefit" type="text" class="full-input" placeholder="e.g. free delivery">
+                </div>
+              </div>
+            </div>
+
+            <button id="generate-btn" type="submit" class="primary-btn"><span class="btn-text">Create my ad</span></button>
           </form>
           <p id="status" class="status" aria-live="polite"></p>
+        </section>
+
+        <section id="recent-section" class="card recent-section hidden">
+          <div class="recent-header">
+            <h3>Recent ads</h3>
+            <button type="button" id="clear-history" class="link-btn small">Clear</button>
+          </div>
+          <ul id="recent-list" class="recent-list"></ul>
         </section>
       </aside>
 
       <section class="right-col">
-        <div id="empty-state" class="card empty-state">Your ad will appear here</div>
+        <div id="empty-state" class="empty-state-wrap">
+          <div class="card example-preview-card">
+            <div class="example-label">Example</div>
+            <div class="preview-card faded">
+              <div class="preview-url">Ad · www.glowup.com</div>
+              <div class="preview-headline">GlowUp Vitamin C Serum | Daily Glow Care</div>
+              <div class="preview-desc">Made for daily care to help your skin feel fresh and radiant. A gentle boost for your glow.</div>
+            </div>
+          </div>
+          <div class="card steps-card">
+            <div class="step"><span class="step-num">1</span><span>Fill the form</span></div>
+            <div class="step"><span class="step-num">2</span><span>Create your ad</span></div>
+            <div class="step"><span class="step-num">3</span><span>Copy and use</span></div>
+          </div>
+        </div>
+
+        <div id="loading-state" class="results hidden" aria-live="polite">
+          <div class="skeleton-block card"></div>
+          <div class="results-grid">
+            <div class="skeleton-block card tall"></div>
+            <div class="skeleton-block card tall"></div>
+          </div>
+          <div class="results-grid">
+            <div class="skeleton-block card"></div>
+            <div class="skeleton-block card"></div>
+          </div>
+        </div>
 
         <section id="results" class="results hidden">
-          <div class="result-block">
-            <h2>Your ad on Google</h2>
-            <div class="preview-card">
-              <div class="preview-url">Ad · www.yourwebsite.com</div>
-              <div id="preview-headline" class="preview-headline"></div>
-              <div id="preview-desc" class="preview-desc"></div>
+          <div id="safety-summary" class="safety-summary"></div>
+
+          <div class="result-block anim" style="--d:0">
+            <div class="block-head row-between">
+              <h2><span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 9h18"/></svg></span> Your ad on Google</h2>
+              <div class="preview-toggle" role="group" aria-label="Preview size">
+                <button type="button" class="toggle-btn active" data-view="desktop">Desktop</button>
+                <button type="button" class="toggle-btn" data-view="mobile">Mobile</button>
+              </div>
             </div>
+            <div id="preview-wrap" class="preview-wrap">
+              <div class="preview-card">
+                <div class="preview-url">Ad · <span id="preview-site">www.yourwebsite.com</span></div>
+                <div id="preview-headline" class="preview-headline"></div>
+                <div id="preview-desc" class="preview-desc"></div>
+              </div>
+            </div>
+            <div id="strength-meter" class="strength-meter"></div>
           </div>
 
           <div class="results-grid">
-            <div class="result-block">
-              <h2>Ad titles</h2>
-              <p class="helper">Short lines for the top of your ad. Tap Copy to use one.</p>
+            <div class="result-block anim" style="--d:1">
+              <h2><span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h10M4 18h7"/></svg></span> Ad titles</h2>
+              <p class="helper inline">Short lines for the top of your ad. Tap Copy to use one.</p>
               <ul id="headlines" class="list"></ul>
               <button id="toggle-headlines" type="button" class="link-btn hidden">Show all titles</button>
             </div>
-            <div class="result-block">
-              <h2>Ad descriptions</h2>
+            <div class="result-block anim" style="--d:2">
+              <h2><span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 11h16M4 16h10"/></svg></span> Ad descriptions</h2>
               <ul id="descriptions" class="list"></ul>
             </div>
           </div>
 
           <div class="results-grid">
-            <div class="result-block">
-              <h2>Search words</h2>
-              <p class="helper">People type these on Google. Add them to your campaign.</p>
+            <div class="result-block anim" style="--d:3">
+              <h2><span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="M20 20l-4-4"/></svg></span> Search words</h2>
+              <p class="helper inline">People type these on Google. Add them to your campaign.</p>
               <div id="keywords" class="keyword-chips"></div>
               <button id="copy-all-keywords" type="button" class="secondary-btn">Copy all words</button>
             </div>
-            <div class="result-block">
-              <h2>Poster idea</h2>
+            <div class="result-block anim" style="--d:4">
+              <h2><span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 14l2-2 2 2 4-5"/></svg></span> Poster idea</h2>
               <div class="poster-card">
                 <div id="poster-text" class="poster-text"></div>
                 <button id="copy-poster" type="button" class="copy-btn">Copy</button>
               </div>
             </div>
           </div>
+
+          <div class="result-actions anim" style="--d:5">
+            <button id="download-csv" type="button" class="secondary-btn outline">Download CSV</button>
+          </div>
         </section>
       </section>
     </div>
+
+    <footer class="site-footer">
+      <span>Built by <span id="owner-name">Ritika Rajput</span></span>
+      <span class="dot-sep">·</span>
+      <a id="github-link" href="https://github.com/ritikakashyap09939-png" target="_blank" rel="noopener">GitHub</a>
+      <span class="dot-sep">·</span>
+      <a id="portfolio-link" href="https://ritika-rajput-portfolio.vercel.app/" target="_blank" rel="noopener">Portfolio</a>
+    </footer>
   </main>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
   <script src="script.js"></script>
 </body>
 </html>
