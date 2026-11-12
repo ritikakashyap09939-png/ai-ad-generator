@@ -19,7 +19,14 @@ Rules:
 function buildSystemPrompt(language, benefit) {
   let extra = '';
   const lang = (typeof language === 'string' && language.trim()) ? language.trim() : 'English';
-  extra += `\n- Write all ad copy in ${lang}. Hinglish means Hindi written in English letters.`;
+  if (lang === 'Hindi') {
+    extra += `\n- Write all ad copy (headlines, descriptions, keywords, and poster idea) in pure Hindi using Devanagari script (देवनागरी लिपि). Do not use Roman/English letters at all, except keep the brand or product name exactly as provided if needed.`;
+  } else if (lang === 'Hinglish') {
+    extra += `\n- Write all ad copy in Hinglish, meaning Hindi written in Roman letters (for example: "Aaj hi order karo").`;
+  } else {
+    extra += `\n- Write all ad copy in English.`;
+  }
+  extra += `\n- Character limits apply in every language: every headline must be under 30 characters and every description must be a complete sentence under 90 characters, never cut off mid-word.`;
   if (typeof benefit === 'string' && benefit.trim()) {
     extra += `\n- Highlight this main benefit: ${benefit.trim()}.`;
   }
