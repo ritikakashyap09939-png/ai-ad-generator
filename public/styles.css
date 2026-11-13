@@ -360,6 +360,9 @@ input[type="text"]:-webkit-autofill:focus, input[type="number"]:-webkit-autofill
 .seo-info { display: grid; gap: 16px; }
 .seo-info h2 { margin: 0 0 8px; font-size: 16px; font-weight: 500; }
 .seo-info p { margin: 0; color: var(--text); font-size: 14px; line-height: 1.5; }
+.seo-copy h3 { margin: 14px 0 4px; font-size: 14px; font-weight: 500; color: var(--text); }
+.seo-copy p { margin: 0 0 10px; }
+.seo-copy p:last-child { margin-bottom: 0; }
 .faq-list { display: grid; gap: 12px; }
 .faq-item h3 { margin: 0 0 4px; font-size: 14px; font-weight: 500; color: var(--text); }
 .faq-item p { margin: 0; color: var(--muted); font-size: 14px; }
