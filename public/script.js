@@ -547,7 +547,8 @@ document.getElementById('clear-history').addEventListener('click', () => {
   renderHistory();
 });
 
-document.getElementById('app-name').textContent = APP_NAME;
+var appNameEl = document.getElementById('app-name');
+if (appNameEl) appNameEl.textContent = APP_NAME;
 document.getElementById('owner-name').textContent = OWNER_NAME;
 document.getElementById('github-link').href = GITHUB_URL;
 document.getElementById('portfolio-link').href = PORTFOLIO_URL;

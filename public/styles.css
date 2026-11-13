@@ -102,7 +102,10 @@ body {
 .site-header { text-align: center; margin-bottom: 16px; }
 .brand-row { display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 8px; }
 .logo { display: inline-flex; }
-.logo-img { display: block; width: 22px; height: 22px; }
+.logo-img { display: block; height: 38px; width: auto; }
+.logo-img.logo-dark { display: none; }
+[data-theme="black"] .logo-img.logo-light { display: none; }
+[data-theme="black"] .logo-img.logo-dark { display: block; }
 .app-name { font-size: 18px; font-weight: 500; color: var(--text); }
 .badge { font-size: 11px; padding: 4px 10px; border-radius: 20px; background: var(--chip-bg); color: var(--chip-text); font-weight: 500; }
 .hero-title { margin: 0 0 4px; font-size: 24px; font-weight: 500; }
