@@ -24,10 +24,24 @@
     "@context": "https://schema.org",
     "@graph": [
       {
-        "@type": "WebApplication",
+        "@type": "Organization",
+        "@id": "https://readyad.vercel.app/#organization",
         "name": "ReadyAd",
         "url": "https://readyad.vercel.app/",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://readyad.vercel.app/readyad-logo.png"
+        }
+      },
+      {
+        "@type": "WebApplication",
+        "@id": "https://readyad.vercel.app/#webapp",
+        "name": "ReadyAd",
+        "url": "https://readyad.vercel.app/",
+        "description": "Free Google Ads generator that writes ad headlines, descriptions and keywords in about 30 seconds, in English, Hindi or Hinglish.",
         "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Any",
+        "publisher": { "@id": "https://readyad.vercel.app/#organization" },
         "offers": {
           "@type": "Offer",
           "price": "0",
@@ -36,7 +50,33 @@
       },
       {
         "@type": "FAQPage",
+        "@id": "https://readyad.vercel.app/#faq",
         "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Is ReadyAd really free?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Yes. There is no account, no credit card and no per-ad charge. You can generate, copy and download as many ads as you need." }
+          },
+          {
+            "@type": "Question",
+            "name": "How many headlines can I generate?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Each run gives you 10 headlines, 4 descriptions, 8 keywords and a poster idea. Run it again with a different tone or audience to get a fresh set." }
+          },
+          {
+            "@type": "Question",
+            "name": "Do I need a Google Ads account to use ReadyAd?",
+            "acceptedAnswer": { "@type": "Answer", "text": "No. ReadyAd only writes the copy. You paste the headlines and descriptions into Google Ads yourself when you are ready to launch." }
+          },
+          {
+            "@type": "Question",
+            "name": "Can it write ads in Hindi or Hinglish?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Yes. Choose Hindi or Hinglish in the form and the headlines, descriptions and keywords are written in that language, within the same character limits." }
+          },
+          {
+            "@type": "Question",
+            "name": "Where do the keyword ideas come from?",
+            "acceptedAnswer": { "@type": "Answer", "text": "They come from your product name, audience and tone, and they are grouped by theme so you can see which ideas belong together. Treat them as a starting point and check search demand in Google Keyword Planner before you spend." }
+          },
           {
             "@type": "Question",
             "name": "Kya yeh tool free hai?",
