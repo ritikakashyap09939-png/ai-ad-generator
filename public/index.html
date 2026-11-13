@@ -81,6 +81,10 @@
     (function () {
       try {
         var t = localStorage.getItem('adgen-theme');
+        if (t === 'indigo' || (t && ['white', 'peach', 'mint', 'black'].indexOf(t) === -1)) {
+          try { localStorage.removeItem('adgen-theme'); } catch (e) {}
+          t = null;
+        }
         if (t) document.documentElement.dataset.theme = t;
       } catch (e) {}
     })();
@@ -96,7 +100,7 @@
       <button type="button" class="theme-dot" data-theme="white" title="White" aria-label="White" style="--dot-color:#ffffff"></button>
       <button type="button" class="theme-dot" data-theme="peach" title="Sunset peach" aria-label="Sunset peach" style="--dot-color:#d9653a"></button>
       <button type="button" class="theme-dot" data-theme="mint" title="Fresh mint" aria-label="Fresh mint" style="--dot-color:#0d9488"></button>
-      <button type="button" class="theme-dot" data-theme="indigo" title="Indigo white" aria-label="Indigo white" style="--dot-color:#4f46e5"></button>
+      <button type="button" class="theme-dot" data-theme="black" title="Black" aria-label="Black" style="--dot-color:#0a0a0a"></button>
     </div>
   </div>
 

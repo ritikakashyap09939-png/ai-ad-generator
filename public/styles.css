@@ -56,24 +56,29 @@
   --surface-soft: #e6faf6;
 }
 
-[data-theme="indigo"] {
-  --bg: #f6f7fb;
-  --card: #ffffff;
-  --input: #ffffff;
-  --border: #e0e3ea;
-  --text: #1f2937;
-  --muted: #6b7280;
-  --accent: #4f46e5;
-  --accent-hover: #4338ca;
-  --on-accent: #ffffff;
-  --chip-bg: #eef2ff;
-  --chip-text: #3730a3;
-  --link: #1a0dab;
-  --error: #b91c1c;
-  --success: #15803d;
-  --warning: #b45309;
-  --surface-soft: #eef0f8;
+[data-theme="black"] {
+  --bg: #0a0a0a;
+  --card: #141414;
+  --input: #1c1c1c;
+  --border: #3a3a3a;
+  --text: #f5f5f5;
+  --muted: #a3a3a3;
+  --accent: #d4af37;
+  --accent-hover: #e0be55;
+  --on-accent: #0a0a0a;
+  --chip-bg: #241f12;
+  --chip-text: #f0cd6e;
+  --link: #e8c76a;
+  --error: #f87171;
+  --success: #4ade80;
+  --warning: #fbbf24;
+  --surface-soft: #1a1a1a;
 }
+
+[data-theme="black"] { color-scheme: dark; }
+[data-theme="black"] input::placeholder { color: #8a8a8a; opacity: 1; }
+.theme-dot[data-theme="black"] { border-color: #6f6f6f; }
+[data-theme="black"] .theme-current-dot { border-color: #6f6f6f; }
 
 * { box-sizing: border-box; }
 
