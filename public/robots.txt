@@ -1,5 +1,6 @@
+# ReadyAd robots.txt
+# Replace YOUR_DOMAIN.com with your live domain before deploying.
 User-agent: *
 Allow: /
-Disallow: /api/
 
-Sitemap: https://readyad.vercel.app/sitemap.xml
+Sitemap: https://YOUR_DOMAIN.com/sitemap.xml

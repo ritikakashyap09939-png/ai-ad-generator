@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="white">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Page Not Found (404) | ReadyAd</title>
+  <meta name="description" content="This page does not exist. Head back to ReadyAd, the free Google Ads generator, to create ad headlines, descriptions and keywords in 30 seconds.">
+  <meta name="robots" content="noindex, follow">
+  <link rel="canonical" href="https://YOUR_DOMAIN.com/">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Noto+Sans+Devanagari:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('adgen-theme');
+        if (t === 'indigo' || (t && ['white', 'peach', 'mint', 'black'].indexOf(t) === -1)) {
+          try { localStorage.removeItem('adgen-theme'); } catch (e) {}
+          t = null;
+        }
+        if (t) document.documentElement.dataset.theme = t;
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body>
+  <main class="container">
+    <header class="site-header">
+      <div class="brand-row">
+        <span class="logo">
+          <img src="/logo-light.svg" alt="ReadyAd" class="logo-img logo-light">
+          <img src="/logo-dark.svg" alt="ReadyAd" class="logo-img logo-dark">
+        </span>
+      </div>
+      <h1 class="hero-title">Page not found</h1>
+      <p class="subtext">This page does not exist or has moved.</p>
+    </header>
+
+    <section class="card notfound">
+      <p>That link is broken or the page was removed. The generator is still where you left it.</p>
+      <a class="secondary-btn" href="/">Back to ReadyAd</a>
+    </section>
+  </main>
+</body>
+</html>
