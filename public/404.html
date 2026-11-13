@@ -11,10 +11,8 @@
   <link rel="icon" type="image/x-icon" href="/favicon.ico">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Noto+Sans+Devanagari:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/styles.css">
+  <link rel="preload" href="/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/styles.min.css">
   <script>
     (function () {
       try {
@@ -33,8 +31,14 @@
     <header class="site-header">
       <div class="brand-row">
         <span class="logo">
-          <img src="/logo-light.svg" alt="ReadyAd" class="logo-img logo-light">
-          <img src="/logo-dark.svg" alt="ReadyAd" class="logo-img logo-dark">
+          <picture>
+            <source srcset="/logo-light.webp" type="image/webp">
+            <img src="/logo-light.svg" alt="ReadyAd free Google Ads generator tool" class="logo-img logo-light" width="137" height="38" decoding="async">
+          </picture>
+          <picture>
+            <source srcset="/logo-dark.webp" type="image/webp">
+            <img src="/logo-dark.svg" alt="ReadyAd free Google Ads generator tool" class="logo-img logo-dark" width="137" height="38" decoding="async">
+          </picture>
         </span>
       </div>
       <h1 class="hero-title">Page not found</h1>
