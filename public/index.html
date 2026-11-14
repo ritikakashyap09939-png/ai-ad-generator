@@ -132,16 +132,22 @@
   </script>
 </head>
 <body>
-  <div class="theme-switcher" id="theme-switcher">
-    <button type="button" id="theme-toggle" class="theme-toggle" aria-expanded="false" aria-controls="theme-options" aria-label="Theme">
-      <span class="theme-current-dot" id="theme-current-dot" aria-hidden="true"></span>
-      <span class="theme-toggle-text">Theme</span>
+  <div class="side-tools">
+    <button type="button" id="help-toggle" class="help-toggle" aria-expanded="false" aria-controls="help-modal">
+      <span class="help-q" aria-hidden="true">?</span>
+      <span class="help-toggle-text">Help</span>
     </button>
-    <div id="theme-options" class="theme-options" role="group" aria-label="Choose theme">
-      <button type="button" class="theme-dot" data-theme="white" title="White" aria-label="White" style="--dot-color:#ffffff"></button>
-      <button type="button" class="theme-dot" data-theme="peach" title="Sunset peach" aria-label="Sunset peach" style="--dot-color:#d9653a"></button>
-      <button type="button" class="theme-dot" data-theme="mint" title="Fresh mint" aria-label="Fresh mint" style="--dot-color:#0d9488"></button>
-      <button type="button" class="theme-dot" data-theme="black" title="Black" aria-label="Black" style="--dot-color:#0a0a0a"></button>
+    <div class="theme-switcher" id="theme-switcher">
+      <button type="button" id="theme-toggle" class="theme-toggle" aria-expanded="false" aria-controls="theme-options" aria-label="Theme">
+        <span class="theme-current-dot" id="theme-current-dot" aria-hidden="true"></span>
+        <span class="theme-toggle-text">Theme</span>
+      </button>
+      <div id="theme-options" class="theme-options" role="group" aria-label="Choose theme">
+        <button type="button" class="theme-dot" data-theme="white" title="White" aria-label="White" style="--dot-color:#ffffff"></button>
+        <button type="button" class="theme-dot" data-theme="peach" title="Sunset peach" aria-label="Sunset peach" style="--dot-color:#d9653a"></button>
+        <button type="button" class="theme-dot" data-theme="mint" title="Fresh mint" aria-label="Fresh mint" style="--dot-color:#0d9488"></button>
+        <button type="button" class="theme-dot" data-theme="black" title="Black" aria-label="Black" style="--dot-color:#0a0a0a"></button>
+      </div>
     </div>
   </div>
 
@@ -416,61 +422,6 @@
             <p>ReadyAd writes copy. It does not connect to your Google Ads account, spend your budget or publish a campaign for you. You paste the lines into Google Ads yourself, which also means nothing goes live without your review. The safety helper on the results screen flags lines that may need a check, but it is a quick helper, not an official Google review.</p>
           </div>
 
-          <div class="card">
-            <h2>FAQ</h2>
-            <div class="faq-list">
-              <div class="faq-item">
-                <h3>Is ReadyAd really free?</h3>
-                <p>Yes. There is no account, no credit card and no per-ad charge. You can generate, copy and download as many ads as you need.</p>
-              </div>
-              <div class="faq-item">
-                <h3>How many headlines can I generate?</h3>
-                <p>Each run gives you 10 headlines, 4 descriptions, 8 keywords and a poster idea. Run it again with a different tone or audience to get a fresh set.</p>
-              </div>
-              <div class="faq-item">
-                <h3>Do I need a Google Ads account to use ReadyAd?</h3>
-                <p>No. ReadyAd only writes the copy. You paste the headlines and descriptions into Google Ads yourself when you are ready to launch.</p>
-              </div>
-              <div class="faq-item">
-                <h3>Can it write ads in Hindi or Hinglish?</h3>
-                <p>Yes. Choose Hindi or Hinglish in the form and the headlines, descriptions and keywords are written in that language, within the same character limits.</p>
-              </div>
-              <div class="faq-item">
-                <h3>Where do the keyword ideas come from?</h3>
-                <p>They come from your product name, audience and tone, and they are grouped by theme so you can see which ideas belong together. Treat them as a starting point and check search demand in Google Keyword Planner before you spend.</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="card">
-            <h2>FAQ (Hinglish)</h2>
-            <div class="faq-list">
-              <div class="faq-item">
-                <h3>Kya yeh tool free hai?</h3>
-                <p>Haan, ReadyAd bilkul free hai. Aap bina kisi payment ke Google Ads copy generate kar sakte hain.</p>
-              </div>
-              <div class="faq-item">
-                <h3>Kya yeh Hindi mein ads bana sakta hai?</h3>
-                <p>Haan, ReadyAd English, Hindi (Devanagari), aur Hinglish mein ads create kar sakta hai.</p>
-              </div>
-              <div class="faq-item">
-                <h3>ReadyAd kaise kaam karta hai?</h3>
-                <p>Aap apne product, audience, age group aur tone ki details bharte hain, aur ReadyAd aapke liye ad titles, descriptions, keywords aur poster idea generate karta hai.</p>
-              </div>
-              <div class="faq-item">
-                <h3>Kya main generated ads copy kar sakta hoon?</h3>
-                <p>Haan, har headline, description, keyword list aur poster idea ke saath Copy button diya gaya hai, aur aap CSV download bhi kar sakte hain.</p>
-              </div>
-              <div class="faq-item">
-                <h3>Kya yeh Google Ads headline generator free hai?</h3>
-                <p>Haan, ReadyAd ek free Google Ads headline generator hai jisse aap bina kisi cost ke ad titles bana sakte hain.</p>
-              </div>
-              <div class="faq-item">
-                <h3>Kya yeh Google Ads description generator Hindi mein kaam karta hai?</h3>
-                <p>Haan, yeh Google Ads description generator Hindi (Devanagari), English aur Hinglish mein kaam karta hai.</p>
-              </div>
-            </div>
-          </div>
         </section>
       </section>
     </div>
@@ -483,6 +434,72 @@
       <a id="portfolio-link" href="https://ritika-rajput-portfolio.vercel.app/" target="_blank" rel="noopener">Portfolio</a>
     </footer>
   </main>
+
+  <div id="help-modal" class="help-modal hidden" role="dialog" aria-modal="true" aria-labelledby="help-title">
+    <div class="help-backdrop" data-help-close></div>
+    <div class="help-panel">
+      <div class="help-head">
+        <h2 id="help-title">Help / FAQ</h2>
+        <button type="button" class="help-close" data-help-close aria-label="Close help">×</button>
+      </div>
+      <div class="help-body">
+        <section class="help-group">
+          <h3 class="help-group-title">FAQ</h3>
+          <div class="faq-list">
+            <details class="faq-item" open>
+              <summary>Is ReadyAd really free? <span class="faq-chevron" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span></summary>
+              <p>Yes. There is no account, no credit card and no per-ad charge. You can generate, copy and download as many ads as you need.</p>
+            </details>
+            <details class="faq-item">
+              <summary>How many headlines can I generate? <span class="faq-chevron" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span></summary>
+              <p>Each run gives you 10 headlines, 4 descriptions, 8 keywords and a poster idea. Run it again with a different tone or audience to get a fresh set.</p>
+            </details>
+            <details class="faq-item">
+              <summary>Do I need a Google Ads account to use ReadyAd? <span class="faq-chevron" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span></summary>
+              <p>No. ReadyAd only writes the copy. You paste the headlines and descriptions into Google Ads yourself when you are ready to launch.</p>
+            </details>
+            <details class="faq-item">
+              <summary>Can it write ads in Hindi or Hinglish? <span class="faq-chevron" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span></summary>
+              <p>Yes. Choose Hindi or Hinglish in the form and the headlines, descriptions and keywords are written in that language, within the same character limits.</p>
+            </details>
+            <details class="faq-item">
+              <summary>Where do the keyword ideas come from? <span class="faq-chevron" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span></summary>
+              <p>They come from your product name, audience and tone, and they are grouped by theme so you can see which ideas belong together. Treat them as a starting point and check search demand in Google Keyword Planner before you spend.</p>
+            </details>
+          </div>
+        </section>
+        <section class="help-group">
+          <h3 class="help-group-title">FAQ (Hinglish)</h3>
+          <div class="faq-list">
+            <details class="faq-item">
+              <summary>Kya yeh tool free hai? <span class="faq-chevron" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span></summary>
+              <p>Haan, ReadyAd bilkul free hai. Aap bina kisi payment ke Google Ads copy generate kar sakte hain.</p>
+            </details>
+            <details class="faq-item">
+              <summary>Kya yeh Hindi mein ads bana sakta hai? <span class="faq-chevron" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span></summary>
+              <p>Haan, ReadyAd English, Hindi (Devanagari), aur Hinglish mein ads create kar sakta hai.</p>
+            </details>
+            <details class="faq-item">
+              <summary>ReadyAd kaise kaam karta hai? <span class="faq-chevron" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span></summary>
+              <p>Aap apne product, audience, age group aur tone ki details bharte hain, aur ReadyAd aapke liye ad titles, descriptions, keywords aur poster idea generate karta hai.</p>
+            </details>
+            <details class="faq-item">
+              <summary>Kya main generated ads copy kar sakta hoon? <span class="faq-chevron" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span></summary>
+              <p>Haan, har headline, description, keyword list aur poster idea ke saath Copy button diya gaya hai, aur aap CSV download bhi kar sakte hain.</p>
+            </details>
+            <details class="faq-item">
+              <summary>Kya yeh Google Ads headline generator free hai? <span class="faq-chevron" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span></summary>
+              <p>Haan, ReadyAd ek free Google Ads headline generator hai jisse aap bina kisi cost ke ad titles bana sakte hain.</p>
+            </details>
+            <details class="faq-item">
+              <summary>Kya yeh Google Ads description generator Hindi mein kaam karta hai? <span class="faq-chevron" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span></summary>
+              <p>Haan, yeh Google Ads description generator Hindi (Devanagari), English aur Hinglish mein kaam karta hai.</p>
+            </details>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
 
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
   <script src="/script.min.js" defer></script>

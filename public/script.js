@@ -63,6 +63,77 @@ const PORTFOLIO_URL = "https://ritika-rajput-portfolio.vercel.app/";
   });
 })();
 
+(function initHelpDialog() {
+  var toggle = document.getElementById('help-toggle');
+  var modal = document.getElementById('help-modal');
+  if (!toggle || !modal) return;
+
+  var isOpen = false;
+
+  function focusables() {
+    return Array.prototype.filter.call(
+      modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'),
+      function (el) { return !el.disabled && el.getClientRects().length > 0; }
+    );
+  }
+
+  function open() {
+    if (isOpen) return;
+    isOpen = true;
+    modal.classList.remove('hidden');
+    toggle.setAttribute('aria-expanded', 'true');
+    var closeBtn = modal.querySelector('.help-close');
+    if (closeBtn) closeBtn.focus();
+    else {
+      var f = focusables();
+      if (f.length) f[0].focus();
+    }
+  }
+
+  function close() {
+    if (!isOpen) return;
+    isOpen = false;
+    modal.classList.add('hidden');
+    toggle.setAttribute('aria-expanded', 'false');
+    toggle.focus();
+  }
+
+  toggle.addEventListener('click', function () {
+    if (isOpen) close();
+    else open();
+  });
+
+  Array.prototype.forEach.call(modal.querySelectorAll('[data-help-close]'), function (el) {
+    el.addEventListener('click', close);
+  });
+
+  modal.addEventListener('click', function (e) {
+    if (e.target === modal) close();
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (!isOpen) return;
+    if (e.key === 'Escape') {
+      e.preventDefault();
+      close();
+      return;
+    }
+    if (e.key === 'Tab') {
+      var f = focusables();
+      if (!f.length) return;
+      var first = f[0];
+      var last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    }
+  });
+})();
+
 const form = document.getElementById('ad-form');
 const generateBtn = document.getElementById('generate-btn');
 const statusEl = document.getElementById('status');
@@ -252,6 +323,7 @@ form.addEventListener('submit', async (e) => {
     loadingStateEl.classList.add('hidden');
     resultsEl.classList.remove('hidden');
     generateBtn.textContent = 'Create again';
+    resultsEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
   } catch (err) {
     loadingStateEl.classList.add('hidden');
     emptyStateEl.classList.remove('hidden');
