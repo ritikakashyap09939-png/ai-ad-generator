@@ -99,6 +99,46 @@ function isTimeoutError(err) {
   return err && (err.name === 'AbortError' || err.name === 'TimeoutError');
 }
 
+const SUPABASE_URL = process.env.SUPABASE_URL || 'https://gsenoghfhtvytzgnqpul.supabase.co';
+const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY || 'sb_publishable_mjX-k9xk78bS2BhWH8QOqw_8F7O4lbM';
+const FREE_LIMIT = 2;
+
+async function verifySupabaseToken(token) {
+  if (!token) return null;
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 8000);
+  try {
+    const res = await fetch(`${SUPABASE_URL}/auth/v1/user`, {
+      headers: {
+        apikey: SUPABASE_ANON_KEY,
+        Authorization: `Bearer ${token}`
+      },
+      signal: controller.signal
+    });
+    if (!res.ok) return null;
+    const user = await res.json();
+    if (!user || !user.id) return null;
+    return user;
+  } catch (e) {
+    return null;
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+function getBearerToken(req) {
+  const header = req.headers.authorization || req.headers.Authorization || '';
+  if (typeof header !== 'string') return '';
+  const match = header.match(/^Bearer\s+(.+)$/i);
+  return match ? match[1].trim() : '';
+}
+
+function parseGuestCount(req) {
+  const raw = req.headers['x-readyad-guest'];
+  const n = parseInt(raw, 10);
+  return isNaN(n) || n < 0 ? 0 : n;
+}
+
 module.exports = async function handler(req, res) {
   const origin = req.headers.origin;
   const allowedOrigins = [
@@ -114,7 +154,7 @@ module.exports = async function handler(req, res) {
     res.setHeader('Access-Control-Allow-Origin', origin);
     res.setHeader('Vary', 'Origin');
     res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-ReadyAd-Guest');
   }
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
@@ -130,7 +170,30 @@ module.exports = async function handler(req, res) {
     return res.status(500).json({ error: 'GEMINI_API_KEY is not configured' });
   }
 
-  const { productName, audience, tone, language, benefit } = req.body || {};
+  let body;
+  try {
+    body = req.body || {};
+    if (typeof body === 'string') body = JSON.parse(body);
+  } catch (e) {
+    return res.status(400).json({ error: 'Invalid request body' });
+  }
+
+  const token = getBearerToken(req);
+
+  let user = null;
+  if (token) {
+    user = await verifySupabaseToken(token);
+    if (!user) {
+      return res.status(401).json({ code: 'SIGN_IN_REQUIRED', error: 'Your session has expired. Please sign in again.' });
+    }
+  } else {
+    const guestCount = parseGuestCount(req);
+    if (guestCount >= FREE_LIMIT) {
+      return res.status(401).json({ code: 'GUEST_LIMIT', error: 'Free ads used up. Please sign in to keep creating.' });
+    }
+  }
+
+  const { productName, audience, tone, language, benefit } = body;
   if (!productName || !audience || !tone) {
     return res.status(400).json({ error: 'productName, audience, and tone are required' });
   }
