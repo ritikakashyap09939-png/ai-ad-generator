@@ -5,7 +5,7 @@
 (function () {
   'use strict';
 
-  var FREE_LIMIT = 2;
+  var FREE_LIMIT = 3;
   var GUEST_KEY = 'readyad-guest-count';
   var OAUTH_PROVIDER_KEY = 'readyad-oauth-provider';
 
@@ -618,6 +618,14 @@
                 openModal('signin');
               } else if (data && data.code === 'GUEST_LIMIT') {
                 openModal('signin');
+                if (data && data.error) {
+                  var toastEl = $('toast');
+                  if (toastEl) {
+                    toastEl.textContent = data.error;
+                    toastEl.classList.add('show');
+                    setTimeout(function () { toastEl.classList.remove('show'); }, 2000);
+                  }
+                }
               }
             }).catch(function () {});
           }

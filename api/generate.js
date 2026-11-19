@@ -101,7 +101,7 @@ function isTimeoutError(err) {
 
 const SUPABASE_URL = process.env.SUPABASE_URL || 'https://gsenoghfhtvytzgnqpul.supabase.co';
 const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY || 'sb_publishable_mjX-k9xk78bS2BhWH8QOqw_8F7O4lbM';
-const FREE_LIMIT = 2;
+const FREE_LIMIT = 3;
 
 async function verifySupabaseToken(token) {
   if (!token) return null;
@@ -189,7 +189,7 @@ module.exports = async function handler(req, res) {
   } else {
     const guestCount = parseGuestCount(req);
     if (guestCount >= FREE_LIMIT) {
-      return res.status(401).json({ code: 'GUEST_LIMIT', error: 'Free ads used up. Please sign in to keep creating.' });
+      return res.status(401).json({ code: 'GUEST_LIMIT', error: "You've used your 3 free ads. Sign in to keep creating." });
     }
   }
 
