@@ -173,258 +173,289 @@
     </header>
 
     <div class="layout">
-      <aside class="left-col">
-        <section class="card form-card">
-          <div class="examples">
-            <span class="examples-label">Try an example:</span>
-            <div class="example-chips">
-              <button type="button" class="chip example-chip" data-example="coffee">Coffee shop</button>
-              <button type="button" class="chip example-chip" data-example="yoga">Yoga classes</button>
-              <button type="button" class="chip example-chip" data-example="course">Online course</button>
-              <button type="button" class="chip example-chip" data-example="skincare">Skincare serum</button>
+      <div class="examples">
+        <span class="examples-label">Try an example:</span>
+        <div class="example-chips">
+          <button type="button" class="chip example-chip" data-example="coffee">Coffee shop</button>
+          <button type="button" class="chip example-chip" data-example="yoga">Yoga classes</button>
+          <button type="button" class="chip example-chip" data-example="course">Online course</button>
+          <button type="button" class="chip example-chip" data-example="skincare">Skincare serum</button>
+        </div>
+      </div>
+
+      <section class="card form-card">
+        <form id="ad-form" novalidate>
+          <div class="question">
+            <div class="q-header">
+              <span class="q-num">1</span>
+              <label for="productName">What are you selling?</label>
+              <span class="helper inline-helper">Write your product name</span>
             </div>
+            <input id="productName" name="productName" type="text" placeholder="e.g. EcoSip Water Bottle">
+            <p id="err-product" class="field-error" aria-live="polite"></p>
           </div>
 
-          <form id="ad-form" novalidate>
-            <div class="question">
+          <div class="q-section">
+            <div class="question compact">
               <div class="q-header">
-                <span class="q-num">1</span>
-                <label for="productName">What are you selling?</label>
-                <span class="helper inline-helper">Write your product name</span>
+                <span class="q-num">2</span>
+                <span class="q-label">Who will buy it?</span>
+                <span class="helper inline-helper">Pick who you want to reach</span>
               </div>
-              <input id="productName" name="productName" type="text" placeholder="e.g. EcoSip Water Bottle">
-              <p id="err-product" class="field-error" aria-live="polite"></p>
+              <div id="gender-chips" class="chips" role="radiogroup" aria-label="Audience">
+                <button type="button" class="chip" data-gender="Women" role="radio" aria-checked="false">Women</button>
+                <button type="button" class="chip" data-gender="Men" role="radio" aria-checked="false">Men</button>
+                <button type="button" class="chip selected" data-gender="Everyone" role="radio" aria-checked="true">Everyone</button>
+              </div>
+              <input type="hidden" id="gender" name="gender" value="Everyone">
             </div>
 
-            <div class="q-section">
-              <div class="question compact">
-                <div class="q-header">
-                  <span class="q-num">2</span>
-                  <span class="q-label">Who will buy it?</span>
-                  <span class="helper inline-helper">Pick who you want to reach</span>
-                </div>
-                <div id="gender-chips" class="chips" role="radiogroup" aria-label="Audience">
-                  <button type="button" class="chip" data-gender="Women" role="radio" aria-checked="false">Women</button>
-                  <button type="button" class="chip" data-gender="Men" role="radio" aria-checked="false">Men</button>
-                  <button type="button" class="chip selected" data-gender="Everyone" role="radio" aria-checked="true">Everyone</button>
-                </div>
-                <input type="hidden" id="gender" name="gender" value="Everyone">
-              </div>
-
-              <div class="question compact">
-                <div class="q-header">
-                  <span class="q-num">3</span>
-                  <span class="q-label">What age group?</span>
-                  <span class="helper inline-helper">Choose the age range of your buyers</span>
-                </div>
-                <div class="age-row">
-                  <div class="age-field">
-                    <label for="age-from" class="age-label">From</label>
-                    <input id="age-from" name="ageFrom" type="number" min="13" max="65" value="18">
-                  </div>
-                  <span class="age-sep">to</span>
-                  <div class="age-field">
-                    <label for="age-to" class="age-label">To</label>
-                    <input id="age-to" name="ageTo" type="number" min="13" max="65" value="45">
-                  </div>
-                </div>
-                <p id="err-age" class="field-error" aria-live="polite"></p>
-              </div>
-            </div>
-
-            <div class="question">
+            <div class="question compact">
               <div class="q-header">
-                <span class="q-num">4</span>
-                <span class="q-label">How should it sound?</span>
-                <span class="helper inline-helper">Pick one tone</span>
+                <span class="q-num">3</span>
+                <span class="q-label">What age group?</span>
+                <span class="helper inline-helper">Choose the age range of your buyers</span>
               </div>
-              <div id="tone-chips" class="chips" role="radiogroup" aria-label="Tone">
-                <button type="button" class="chip selected" data-tone="Friendly" role="radio" aria-checked="true">Friendly</button>
-                <button type="button" class="chip" data-tone="Professional" role="radio" aria-checked="false">Professional</button>
-                <button type="button" class="chip" data-tone="Fun" role="radio" aria-checked="false">Fun</button>
-                <button type="button" class="chip" data-tone="Luxury" role="radio" aria-checked="false">Luxury</button>
-              </div>
-              <input type="hidden" id="tone" name="tone" value="Friendly">
-            </div>
-
-            <div class="more-options">
-              <button type="button" id="more-toggle" class="more-toggle" aria-expanded="false">More options <span class="chev">▾</span></button>
-              <div id="more-panel" class="more-panel hidden">
-                <div class="question compact">
-                  <div class="q-header"><span class="q-label small">Language</span></div>
-                  <div id="lang-chips" class="chips" role="radiogroup" aria-label="Language">
-                    <button type="button" class="chip selected" data-lang="English" role="radio" aria-checked="true">English</button>
-                    <button type="button" class="chip" data-lang="Hindi" role="radio" aria-checked="false">Hindi</button>
-                    <button type="button" class="chip" data-lang="Hinglish" role="radio" aria-checked="false">Hinglish</button>
-                  </div>
-                  <input type="hidden" id="language" name="language" value="English">
+              <div class="age-row">
+                <div class="age-field">
+                  <label for="age-from" class="age-label">From</label>
+                  <input id="age-from" name="ageFrom" type="number" min="13" max="65" value="18">
                 </div>
-                <div class="question compact">
-                  <label for="website" class="q-label small">Website link <span class="muted">(optional)</span></label>
-                  <input id="website" name="website" type="text" class="full-input" placeholder="yourwebsite.com">
-                </div>
-                <div class="question compact">
-                  <label for="benefit" class="q-label small">Main benefit <span class="muted">(optional)</span></label>
-                  <input id="benefit" name="benefit" type="text" class="full-input" placeholder="e.g. free delivery">
+                <span class="age-sep">to</span>
+                <div class="age-field">
+                  <label for="age-to" class="age-label">To</label>
+                  <input id="age-to" name="ageTo" type="number" min="13" max="65" value="45">
                 </div>
               </div>
-            </div>
-
-            <div class="sticky-submit">
-              <button id="generate-btn" type="submit" class="primary-btn"><span class="btn-text">Create my ad</span></button>
-            </div>
-          </form>
-          <p id="status" class="status" aria-live="polite"></p>
-        </section>
-
-        <section id="recent-section" class="card recent-section hidden">
-          <div class="recent-header">
-            <h2>Recent ads</h2>
-            <button type="button" id="clear-history" class="link-btn small">Clear</button>
-          </div>
-          <ul id="recent-list" class="recent-list"></ul>
-        </section>
-      </aside>
-
-      <section class="right-col">
-        <div id="empty-state" class="empty-state-wrap">
-          <div class="card example-preview-card">
-            <div class="example-label">Example</div>
-            <div class="preview-card faded">
-              <div class="preview-url">Ad · www.glowup.com</div>
-              <div class="preview-headline">GlowUp Vitamin C Serum | Daily Glow Care</div>
-              <div class="preview-desc">Made for daily care to help your skin feel fresh and radiant. A gentle boost for your glow.</div>
+              <p id="err-age" class="field-error" aria-live="polite"></p>
             </div>
           </div>
-          <div class="card steps-card">
-            <div class="step"><span class="step-num">1</span><span>Fill the form</span></div>
-            <div class="step"><span class="step-num">2</span><span>Create your ad</span></div>
-            <div class="step"><span class="step-num">3</span><span>Copy and use</span></div>
+
+          <div class="question">
+            <div class="q-header">
+              <span class="q-num">4</span>
+              <span class="q-label">How should it sound?</span>
+              <span class="helper inline-helper">Pick one tone</span>
+            </div>
+            <div id="tone-chips" class="chips" role="radiogroup" aria-label="Tone">
+              <button type="button" class="chip selected" data-tone="Friendly" role="radio" aria-checked="true">Friendly</button>
+              <button type="button" class="chip" data-tone="Professional" role="radio" aria-checked="false">Professional</button>
+              <button type="button" class="chip" data-tone="Fun" role="radio" aria-checked="false">Fun</button>
+              <button type="button" class="chip" data-tone="Luxury" role="radio" aria-checked="false">Luxury</button>
+            </div>
+            <input type="hidden" id="tone" name="tone" value="Friendly">
           </div>
-          <div class="what-you-get">
-            <h2 class="what-heading">Features</h2>
-            <div class="what-grid">
-              <div class="what-card">
-                <span class="what-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h10M4 18h7"/></svg></span>
-                <div class="what-title">Ad titles</div>
-                <div class="what-text">Short lines for the top of your ad</div>
+
+          <div class="more-options">
+            <button type="button" id="more-toggle" class="more-toggle" aria-expanded="false">More options <span class="chev">▾</span></button>
+            <div id="more-panel" class="more-panel hidden">
+              <div class="question compact">
+                <div class="q-header"><span class="q-label small">Language</span></div>
+                <div id="lang-chips" class="chips" role="radiogroup" aria-label="Language">
+                  <button type="button" class="chip selected" data-lang="English" role="radio" aria-checked="true">English</button>
+                  <button type="button" class="chip" data-lang="Hindi" role="radio" aria-checked="false">Hindi</button>
+                  <button type="button" class="chip" data-lang="Hinglish" role="radio" aria-checked="false">Hinglish</button>
+                </div>
+                <input type="hidden" id="language" name="language" value="English">
               </div>
-              <div class="what-card">
-                <span class="what-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 11h16M4 16h10"/></svg></span>
-                <div class="what-title">Ad descriptions</div>
-                <div class="what-text">Longer lines that explain your product</div>
+              <div class="question compact">
+                <label for="website" class="q-label small">Website link <span class="muted">(optional)</span></label>
+                <input id="website" name="website" type="text" class="full-input" placeholder="yourwebsite.com">
               </div>
-              <div class="what-card">
-                <span class="what-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="M20 20l-4-4"/></svg></span>
-                <div class="what-title">Search words</div>
-                <div class="what-text">What people type on Google</div>
-              </div>
-              <div class="what-card">
-                <span class="what-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 14l2-2 2 2 4-5"/></svg></span>
-                <div class="what-title">Poster idea</div>
-                <div class="what-text">A design idea for your poster</div>
+              <div class="question compact">
+                <label for="benefit" class="q-label small">Main benefit <span class="muted">(optional)</span></label>
+                <input id="benefit" name="benefit" type="text" class="full-input" placeholder="e.g. free delivery">
               </div>
             </div>
+          </div>
+
+          <div class="sticky-submit">
+            <button id="generate-btn" type="submit" class="primary-btn"><span class="btn-text">Create my ad</span></button>
+          </div>
+        </form>
+        <p id="status" class="status" aria-live="polite"></p>
+      </section>
+
+      <section id="recent-section" class="card recent-section hidden">
+        <div class="recent-header">
+          <h2>Recent ads</h2>
+          <button type="button" id="clear-history" class="link-btn small">Clear</button>
+        </div>
+        <ul id="recent-list" class="recent-list"></ul>
+      </section>
+
+      <div id="empty-state" class="empty-state-wrap">
+        <div class="card example-preview-card">
+          <div class="example-label">Example</div>
+          <div class="preview-card faded">
+            <div class="preview-url">Ad · www.glowup.com</div>
+            <div class="preview-headline">GlowUp Vitamin C Serum | Daily Glow Care</div>
+            <div class="preview-desc">Made for daily care to help your skin feel fresh and radiant. A gentle boost for your glow.</div>
           </div>
         </div>
+      </div>
 
-        <div id="loading-state" class="results hidden" aria-live="polite">
+      <div id="loading-state" class="results hidden" aria-live="polite">
+        <div class="skeleton-block card"></div>
+        <div class="results-grid">
+          <div class="skeleton-block card tall"></div>
+          <div class="skeleton-block card tall"></div>
+        </div>
+        <div class="results-grid">
           <div class="skeleton-block card"></div>
-          <div class="results-grid">
-            <div class="skeleton-block card tall"></div>
-            <div class="skeleton-block card tall"></div>
+          <div class="skeleton-block card"></div>
+        </div>
+      </div>
+
+      <section id="results" class="results hidden">
+        <div id="safety-summary" class="safety-summary"></div>
+
+        <div class="result-block anim" style="--d:0">
+          <div class="block-head row-between">
+            <h2><span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 9h18"/></svg></span> Your ad on Google</h2>
+            <div class="preview-toggle" role="group" aria-label="Preview size">
+              <button type="button" class="toggle-btn active" data-view="desktop">Desktop</button>
+              <button type="button" class="toggle-btn" data-view="mobile">Mobile</button>
+            </div>
           </div>
-          <div class="results-grid">
-            <div class="skeleton-block card"></div>
-            <div class="skeleton-block card"></div>
+          <div id="preview-wrap" class="preview-wrap">
+            <div class="preview-card">
+              <div class="preview-url">Ad · <span id="preview-site">www.yourwebsite.com</span></div>
+              <div id="preview-headline" class="preview-headline"></div>
+              <div id="preview-desc" class="preview-desc"></div>
+            </div>
+          </div>
+          <div id="strength-meter" class="strength-meter"></div>
+        </div>
+
+        <div class="results-grid">
+          <div class="result-block anim" style="--d:1">
+            <h2><span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h10M4 18h7"/></svg></span> Ad titles</h2>
+            <p class="helper inline">Short lines for the top of your ad. Tap Copy to use one.</p>
+            <ul id="headlines" class="list"></ul>
+            <button id="toggle-headlines" type="button" class="link-btn hidden">Show all titles</button>
+          </div>
+          <div class="result-block anim" style="--d:2">
+            <h2><span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 11h16M4 16h10"/></svg></span> Ad descriptions</h2>
+            <ul id="descriptions" class="list"></ul>
           </div>
         </div>
 
-        <section id="results" class="results hidden">
-          <div id="safety-summary" class="safety-summary"></div>
-
-          <div class="result-block anim" style="--d:0">
-            <div class="block-head row-between">
-              <h2><span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 9h18"/></svg></span> Your ad on Google</h2>
-              <div class="preview-toggle" role="group" aria-label="Preview size">
-                <button type="button" class="toggle-btn active" data-view="desktop">Desktop</button>
-                <button type="button" class="toggle-btn" data-view="mobile">Mobile</button>
-              </div>
-            </div>
-            <div id="preview-wrap" class="preview-wrap">
-              <div class="preview-card">
-                <div class="preview-url">Ad · <span id="preview-site">www.yourwebsite.com</span></div>
-                <div id="preview-headline" class="preview-headline"></div>
-                <div id="preview-desc" class="preview-desc"></div>
-              </div>
-            </div>
-            <div id="strength-meter" class="strength-meter"></div>
+        <div class="results-grid">
+          <div class="result-block anim" style="--d:3">
+            <h2><span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="M20 20l-4-4"/></svg></span> Search words</h2>
+            <p class="helper inline">People type these on Google. Add them to your campaign.</p>
+            <div id="keywords" class="keyword-chips"></div>
+            <button id="copy-all-keywords" type="button" class="secondary-btn">Copy all words</button>
           </div>
-
-          <div class="results-grid">
-            <div class="result-block anim" style="--d:1">
-              <h2><span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h10M4 18h7"/></svg></span> Ad titles</h2>
-              <p class="helper inline">Short lines for the top of your ad. Tap Copy to use one.</p>
-              <ul id="headlines" class="list"></ul>
-              <button id="toggle-headlines" type="button" class="link-btn hidden">Show all titles</button>
-            </div>
-            <div class="result-block anim" style="--d:2">
-              <h2><span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 11h16M4 16h10"/></svg></span> Ad descriptions</h2>
-              <ul id="descriptions" class="list"></ul>
+          <div class="result-block anim" style="--d:4">
+            <h2><span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 14l2-2 2 2 4-5"/></svg></span> Poster idea</h2>
+            <div class="poster-card">
+              <div id="poster-text" class="poster-text"></div>
+              <button id="copy-poster" type="button" class="copy-btn">Copy</button>
             </div>
           </div>
+        </div>
 
-          <div class="results-grid">
-            <div class="result-block anim" style="--d:3">
-              <h2><span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="M20 20l-4-4"/></svg></span> Search words</h2>
-              <p class="helper inline">People type these on Google. Add them to your campaign.</p>
-              <div id="keywords" class="keyword-chips"></div>
-              <button id="copy-all-keywords" type="button" class="secondary-btn">Copy all words</button>
-            </div>
-            <div class="result-block anim" style="--d:4">
-              <h2><span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 14l2-2 2 2 4-5"/></svg></span> Poster idea</h2>
-              <div class="poster-card">
-                <div id="poster-text" class="poster-text"></div>
-                <button id="copy-poster" type="button" class="copy-btn">Copy</button>
-              </div>
-            </div>
+        <div class="result-actions anim" style="--d:5">
+          <button id="download-csv" type="button" class="secondary-btn outline">Download CSV</button>
+        </div>
+      </section>
+
+      <div class="card steps-card">
+        <div class="step"><span class="step-num">1</span><span>Fill the form</span></div>
+        <div class="step"><span class="step-num">2</span><span>Create your ad</span></div>
+        <div class="step"><span class="step-num">3</span><span>Copy and use</span></div>
+      </div>
+
+      <div class="what-you-get">
+        <h2 class="what-heading">Features</h2>
+        <div class="what-grid">
+          <div class="what-card">
+            <span class="what-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h10M4 18h7"/></svg></span>
+            <div class="what-title">Ad titles</div>
+            <div class="what-text">Short lines for the top of your ad</div>
           </div>
-
-          <div class="result-actions anim" style="--d:5">
-            <button id="download-csv" type="button" class="secondary-btn outline">Download CSV</button>
+          <div class="what-card">
+            <span class="what-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 11h16M4 16h10"/></svg></span>
+            <div class="what-title">Ad descriptions</div>
+            <div class="what-text">Longer lines that explain your product</div>
           </div>
-        </section>
+          <div class="what-card">
+            <span class="what-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="M20 20l-4-4"/></svg></span>
+            <div class="what-title">Search words</div>
+            <div class="what-text">What people type on Google</div>
+          </div>
+          <div class="what-card">
+            <span class="what-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 14l2-2 2 2 4-5"/></svg></span>
+            <div class="what-title">Poster idea</div>
+            <div class="what-text">A design idea for your poster</div>
+          </div>
+        </div>
+      </div>
 
-        <section class="seo-info anim" style="--d:6">
-          <div class="card">
+      <section class="seo-info anim" style="--d:6">
+        <div class="seo-section-head">
+          <h2 class="seo-section-title">Learn more about ReadyAd</h2>
+        </div>
+
+        <div class="seo-cards">
+          <div class="card seo-card">
             <h2>How it works</h2>
             <p>ReadyAd makes creating Google Ads simple. Fill in a few quick details about your product, audience, and tone, then click Create my ad. In about 30 seconds, ReadyAd generates ad titles, descriptions, search words, and a poster idea you can copy and use.</p>
           </div>
-          <div class="card">
+          <div class="card seo-card">
             <h2>Who it is for</h2>
             <p>Founders, freelancers and small business owners who need a free Google Ads generator for quick ad copy. No agency, no design tools and no ad account required.</p>
           </div>
+        </div>
 
-          <div class="card seo-copy">
-            <h2>What is a free Google Ads generator?</h2>
-            <p>A free Google Ads generator is a tool that writes your Google Ads copy for you: the short headlines, the longer descriptions and the search keywords, without charging per ad, per seat or per campaign. Instead of staring at a blank box and guessing what fits inside Google's character limits, you describe your product in one line and the tool hands back copy that is ready to paste. It works as a Google Ads copy generator when you need the text, and as an ad headline generator when you need ten versions of the same idea.</p>
-            <p>ReadyAd is one of these tools, and it is free in the plain sense. There is no account, no card and no trial timer. You open the page, describe what you sell, and the ad copy appears in about 30 seconds.</p>
+        <div class="seo-accordion">
+          <details class="seo-item" open>
+            <summary>
+              What is a free Google Ads generator?
+              <span class="seo-chevron" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
+            </summary>
+            <div class="seo-item-body">
+              <p>A free Google Ads generator is a tool that writes your Google Ads copy for you: the short headlines, the longer descriptions and the search keywords, without charging per ad, per seat or per campaign. Instead of staring at a blank box and guessing what fits inside Google's character limits, you describe your product in one line and the tool hands back copy that is ready to paste. It works as a Google Ads copy generator when you need the text, and as an ad headline generator when you need ten versions of the same idea.</p>
+              <p>ReadyAd is one of these tools, and it is free in the plain sense. It is free to use, guests get 3 free ads, and signing in is free. You open the page, describe what you sell, and the ad copy appears in about 30 seconds.</p>
+            </div>
+          </details>
 
-            <h3>How ReadyAd turns a product name into ad copy</h3>
-            <p>Everything ReadyAd needs, it asks in plain language. You type what you are selling, for example an insulated water bottle, then choose who will buy it, an age range and a tone such as friendly, premium or urgent. That is the whole input.</p>
-            <p>From those details ReadyAd returns 10 ad headlines, each kept under 30 characters so it fits the Google Ads headline field, 4 descriptions, each a complete sentence under 90 characters, 8 Google Ads keyword ideas grouped by theme, and a poster idea for the image. Every line has its own Copy button, so you can move a headline or a keyword into your campaign without retyping it. If you would rather work in a spreadsheet, the CSV download gives you the headlines, descriptions and keywords in one file.</p>
-            <p>Because the copy is written from your product name and audience instead of a fixed template, it sounds like your business. A coffee shop gets warm, local lines; a skincare brand gets calmer, ingredient-led ones.</p>
+          <details class="seo-item">
+            <summary>
+              How ReadyAd turns a product name into ad copy
+              <span class="seo-chevron" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
+            </summary>
+            <div class="seo-item-body">
+              <p>Everything ReadyAd needs, it asks in plain language. You type what you are selling, for example an insulated water bottle, then choose who will buy it, an age range and a tone such as friendly, premium or urgent. That is the whole input.</p>
+              <p>From those details ReadyAd returns 10 ad headlines, each kept under 30 characters so it fits the Google Ads headline field, 4 descriptions, each a complete sentence under 90 characters, 8 Google Ads keyword ideas grouped by theme, and a poster idea for the image. Every line has its own Copy button, so you can move a headline or a keyword into your campaign without retyping it. If you would rather work in a spreadsheet, the CSV download gives you the headlines, descriptions and keywords in one file.</p>
+              <p>Because the copy is written from your product name and audience instead of a fixed template, it sounds like your business. A coffee shop gets warm, local lines; a skincare brand gets calmer, ingredient-led ones.</p>
+            </div>
+          </details>
 
-            <h3>Why small businesses use an AI ad generator</h3>
-            <p>Most small businesses do not have a copywriter on call, and paying an agency for one search campaign is rarely worth it. An AI ad generator removes that bottleneck. You get a first draft in half a minute at no cost, and you can run it again whenever you launch a product or a seasonal offer.</p>
-            <p>The practical gains are variety and speed. Ten headlines and four descriptions give you enough material to test three or four combinations in Google Ads instead of guessing one. The keyword list is a starting point for your keyword field, and it is honest about its limits: it gives you Google Ads keyword ideas, not search volumes, so check demand in Google Keyword Planner before you commit budget.</p>
-            <p>ReadyAd also writes in English, Hindi and Hinglish, which matters when your customers search in more than one language. You can run the same product in two languages and compare the lines side by side.</p>
+          <details class="seo-item">
+            <summary>
+              Why small businesses use an AI ad generator
+              <span class="seo-chevron" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
+            </summary>
+            <div class="seo-item-body">
+              <p>Most small businesses do not have a copywriter on call, and paying an agency for one search campaign is rarely worth it. An AI ad generator removes that bottleneck. You get a first draft in half a minute at no cost, and you can run it again whenever you launch a product or a seasonal offer.</p>
+              <p>The practical gains are variety and speed. Ten headlines and four descriptions give you enough material to test three or four combinations in Google Ads instead of guessing one. The keyword list is a starting point for your keyword field, and it is honest about its limits: it gives you Google Ads keyword ideas, not search volumes, so check demand in Google Keyword Planner before you commit budget.</p>
+              <p>ReadyAd also writes in English, Hindi and Hinglish, which matters when your customers search in more than one language. You can run the same product in two languages and compare the lines side by side.</p>
+            </div>
+          </details>
 
-            <h3>What ReadyAd does not do</h3>
-            <p>ReadyAd writes copy. It does not connect to your Google Ads account, spend your budget or publish a campaign for you. You paste the lines into Google Ads yourself, which also means nothing goes live without your review. The safety helper on the results screen flags lines that may need a check, but it is a quick helper, not an official Google review.</p>
-          </div>
-
-        </section>
+          <details class="seo-item">
+            <summary>
+              What ReadyAd does not do
+              <span class="seo-chevron" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
+            </summary>
+            <div class="seo-item-body">
+              <p>ReadyAd writes copy. It does not connect to your Google Ads account, spend your budget or publish a campaign for you. You paste the lines into Google Ads yourself, which also means nothing goes live without your review. The safety helper on the results screen flags lines that may need a check, but it is a quick helper, not an official Google review.</p>
+            </div>
+          </details>
+        </div>
       </section>
     </div>
 

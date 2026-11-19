@@ -151,7 +151,16 @@ body {
 .hero-title { margin: 0 0 4px; font-size: 24px; font-weight: 500; }
 .subtext { margin: 0; color: var(--muted); font-size: 14px; }
 
-.layout { display: grid; grid-template-columns: 360px 1fr; gap: 16px; align-items: start; }
+.layout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  max-width: 720px;
+  margin: 0 auto;
+  width: 100%;
+}
+.layout > * { width: 100%; }
 .left-col, .right-col { min-width: 0; display: flex; flex-direction: column; gap: 16px; }
 
 .card, .result-block {
@@ -161,15 +170,17 @@ body {
   padding: 14px;
   transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
-.form-card { position: sticky; top: 16px; }
+.form-card { max-width: 680px; }
 
-.examples { margin-bottom: 8px; }
+.examples { margin-bottom: 8px; max-width: 680px; }
 .examples-label { display: block; font-size: 12px; color: var(--muted); margin-bottom: 4px; }
 .example-chips { display: flex; flex-wrap: wrap; gap: 6px; }
 .example-chip { padding: 4px 10px; font-size: 12px; }
 
 .question { margin-bottom: 12px; }
 .question.compact { margin-bottom: 12px; }
+.q-section { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.q-section .question { margin-bottom: 0; }
 .q-header { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; flex-wrap: wrap; }
 .q-num {
   display: inline-flex; align-items: center; justify-content: center;
@@ -187,6 +198,13 @@ input[type="text"], input[type="number"] {
   height: 40px; padding: 8px 12px; border-radius: 10px; border: 1px solid var(--border);
   background: var(--input); color: var(--text); font-size: 14px; font-family: inherit;
   transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+#productName {
+  width: 100%;
+  margin-left: 0;
+  height: 48px;
+  font-size: 16px;
+  padding: 10px 14px;
 }
 input[type="text"] { width: calc(100% - 30px); margin-left: 30px; }
 input[type="text"].full-input { width: 100%; margin-left: 0; margin-top: 4px; }
@@ -231,7 +249,7 @@ input[type="text"]:-webkit-autofill:focus, input[type="number"]:-webkit-autofill
 .more-panel { margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border); }
 .more-panel .chips { margin-left: 0; }
 
-.sticky-submit { position: sticky; bottom: 0; background: var(--card); padding-top: 10px; margin-top: 4px; z-index: 1; }
+.sticky-submit { padding-top: 10px; margin-top: 4px; }
 .primary-btn {
   width: 100%; background: var(--accent); color: var(--on-accent);
   border: none; padding: 13px 18px; border-radius: 10px; font-size: 15px; font-weight: 500;
@@ -395,12 +413,16 @@ input[type="text"]:-webkit-autofill:focus, input[type="number"]:-webkit-autofill
 
 @media (max-width: 899px) {
   .container { padding: 64px 16px 24px; }
-  .layout { grid-template-columns: 1fr; }
-  .form-card { position: static; max-height: none; overflow: visible; }
+  .layout { max-width: 100%; gap: 20px; }
+  .form-card { position: static; max-height: none; overflow: visible; max-width: 100%; }
+  .examples { max-width: 100%; }
   .sticky-submit { position: static; padding-top: 0; }
+  .q-section { grid-template-columns: 1fr; gap: 0; }
+  .q-section .question { margin-bottom: 12px; }
   .results-grid { grid-template-columns: 1fr; }
   .what-grid { grid-template-columns: 1fr; }
   input[type="text"], .chips, .field-error, .age-row { margin-left: 0; width: 100%; }
+  #productName { margin-left: 0; width: 100%; }
   .q-header { align-items: flex-start; }
   .steps-card { flex-direction: column; align-items: flex-start; }
   .side-tools { top: 12px; right: 12px; transform: none; align-items: flex-end; }
@@ -411,12 +433,100 @@ input[type="text"]:-webkit-autofill:focus, input[type="number"]:-webkit-autofill
   .help-panel { max-height: 85vh; }
 }
 
-.seo-info { display: grid; gap: 16px; }
-.seo-info h2 { margin: 0 0 8px; font-size: 16px; font-weight: 500; }
-.seo-info p { margin: 0; color: var(--text); font-size: 14px; line-height: 1.5; }
-.seo-copy h3 { margin: 14px 0 4px; font-size: 14px; font-weight: 500; color: var(--text); }
-.seo-copy p { margin: 0 0 10px; }
-.seo-copy p:last-child { margin-bottom: 0; }
+.seo-info {
+  display: grid;
+  gap: 20px;
+  max-width: 720px;
+  width: 100%;
+}
+.seo-section-head { text-align: center; }
+.seo-section-title {
+  margin: 0 0 4px;
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--text);
+}
+.seo-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.seo-card {
+  padding: 18px 20px;
+  border-radius: 14px;
+}
+.seo-card h2 {
+  margin: 0 0 8px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+}
+.seo-card p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--muted);
+}
+
+/* SEO accordion --------------------------------------------------------- */
+.seo-accordion {
+  display: grid;
+  gap: 10px;
+}
+.seo-item {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--card);
+  overflow: hidden;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+.seo-item[open] { border-color: var(--accent); }
+.seo-item > summary {
+  margin: 0;
+  padding: 14px 18px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  list-style: none;
+  user-select: none;
+  transition: background 0.2s ease;
+}
+.seo-item > summary::-webkit-details-marker { display: none; }
+.seo-item > summary::-details-content { display: none; }
+.seo-item > summary:hover { background: var(--surface-soft); }
+.seo-chevron {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  color: var(--muted);
+  pointer-events: none;
+  transition: transform 0.2s ease;
+}
+.seo-item[open] .seo-chevron { transform: rotate(180deg); }
+.seo-item-body {
+  padding: 0 18px 16px;
+  display: grid;
+  gap: 10px;
+}
+.seo-item-body p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--muted);
+}
+
+@media (max-width: 640px) {
+  .seo-info { max-width: 100%; margin-top: 20px; }
+  .seo-cards { grid-template-columns: 1fr; }
+  .seo-item > summary { padding: 13px 15px; font-size: 14px; }
+  .seo-item-body { padding: 0 15px 14px; }
+}
 .notfound { max-width: 520px; margin: 0 auto; text-align: center; }
 .notfound p { margin: 0 0 14px; }
 .notfound .secondary-btn { display: inline-block; text-decoration: none; }
